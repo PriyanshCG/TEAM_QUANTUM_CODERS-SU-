@@ -32,6 +32,8 @@ export interface IStudent extends Document {
   salary?: number;
   passportHash?: string;
   interventions: IIntervention[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const StudentSchema = new Schema<IStudent>(
