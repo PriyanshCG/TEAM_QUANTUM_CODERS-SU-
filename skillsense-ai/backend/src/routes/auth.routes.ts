@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import passport from 'passport';
-import { signAccessToken } from '../utils/jwt.utils';
+import jwt from 'jsonwebtoken';
 import { register, login, refreshTokens, logout, getMe } from '../controllers/auth.controller';
 import { protect } from '../middleware/auth.middleware';
 import { authLimiter } from '../middleware/rateLimit.middleware';
@@ -9,11 +9,41 @@ import { IUser } from '../models/User.model';
 const router = Router();
 const FRONTEND_URL = process.env.CORS_ORIGIN || 'http://localhost:3000';
 
+/**
+ * Generate a long-lived JWT identical to the one produced by local login.
+ * Uses JWT_SECRET + JWT_EXPIRE so auth.middleware.ts can verify it.
+ */
+const generateToken = (id: string, role: string): string =>
+  jwt.sign(
+    { id, role },
+    process.env.JWT_SECRET!,
+    { expiresIn: (process.env.JWT_EXPIRE || '7d') as jwt.SignOptions['expiresIn'] }
+  );
+
+/**
+ * Encode safe user fields as a base64 JSON string so the frontend callback
+ * page can hydrate the auth store without an extra /auth/me round-trip.
+ */
+const encodeUser = (user: IUser): string => {
+  const payload = {
+    id:           String(user._id),
+    name:         user.name,
+    email:        user.email,
+    role:         user.role,
+    avatar:       user.avatar ?? '',
+    isVerified:   user.isVerified,
+    isActive:     user.isActive,
+    authProvider: user.authProvider,
+  };
+  return Buffer.from(JSON.stringify(payload)).toString('base64');
+};
+
 // ── Local Auth ─────────────────────────────────────────────────────────────────
 router.post('/register', authLimiter, register);
 router.post('/login', authLimiter, login);
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
+export { refreshTokens }; // keep named export available if other modules import it
 
 // ── Google OAuth ───────────────────────────────────────────────────────────────
 router.get('/google',
@@ -21,11 +51,20 @@ router.get('/google',
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: `${FRONTEND_URL}/auth?error=google_failed` }),
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: `${FRONTEND_URL}/auth?error=google_failed`,
+  }),
   (req: Request, res: Response) => {
-    const user = req.user as unknown as IUser;
-    const token = signAccessToken(String(user._id), user.role);
-    res.redirect(`${FRONTEND_URL}/auth/callback?token=${token}&provider=google`);
+    const user = req.user as IUser;
+    console.log('[Google OAuth] Callback success — email:', user.email, '| role:', user.role);
+
+    const token   = generateToken(String(user._id), user.role);
+    const encoded = encodeUser(user);
+
+    res.redirect(
+      `${FRONTEND_URL}/auth/callback?token=${token}&user=${encoded}&provider=google`
+    );
   }
 );
 
@@ -35,11 +74,20 @@ router.get('/github',
 );
 
 router.get('/github/callback',
-  passport.authenticate('github', { session: false, failureRedirect: `${FRONTEND_URL}/auth?error=github_failed` }),
+  passport.authenticate('github', {
+    session: false,
+    failureRedirect: `${FRONTEND_URL}/auth?error=github_failed`,
+  }),
   (req: Request, res: Response) => {
-    const user = req.user as unknown as IUser;
-    const token = signAccessToken(String(user._id), user.role);
-    res.redirect(`${FRONTEND_URL}/auth/callback?token=${token}&provider=github`);
+    const user = req.user as IUser;
+    console.log('[GitHub OAuth] Callback success — email:', user.email, '| role:', user.role);
+
+    const token   = generateToken(String(user._id), user.role);
+    const encoded = encodeUser(user);
+
+    res.redirect(
+      `${FRONTEND_URL}/auth/callback?token=${token}&user=${encoded}&provider=github`
+    );
   }
 );
 

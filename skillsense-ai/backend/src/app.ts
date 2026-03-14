@@ -22,10 +22,24 @@ const app = express();
 
 // ── Security & CORS ────────────────────────────────────────────────────────
 app.use(helmet());
+
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGIN || 'http://localhost:3000')
+  .split(',')
+  .map((o) => o.trim())
+  .concat(['http://localhost:3001']); // dev: Next.js sometimes runs on 3001
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // allow requests with no origin (curl, Postman) and allowed origins
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    }
+  },
   credentials: true,
 }));
+
 
 // ── Body Parsing ───────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
