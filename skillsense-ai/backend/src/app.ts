@@ -18,33 +18,37 @@ import industryRouter from './routes/industry.routes';
 import analyticsRouter from './routes/analytics.routes';
 import governanceRouter from './routes/governance.routes';
 import adminRouter from './routes/admin.routes';
-import contactRouter from './routes/contact.routes';
 import aiRouter from './routes/ai.routes';
-import assessmentRouter from './routes/assessment.routes';
-import profileRouter from './routes/profile.routes';
-import jobRouter from './routes/job.routes';
+import contactRouter from './routes/contact.routes';
 
 const app = express();
 
 // ── Security & CORS ────────────────────────────────────────────────────────
 app.use(helmet());
 
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGIN || 'http://localhost:3000')
-  .split(',')
-  .map((o) => o.trim())
-  .concat(['http://localhost:3001']); // dev: Next.js sometimes runs on 3001
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001', 
+  'https://skillsense-ai-seven.vercel.app',
+  process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // allow requests with no origin (curl, Postman) and allowed origins
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS: origin ${origin} not allowed`));
-    }
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked: ${origin}`));
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 }));
+
+// Handle OPTIONS preflight for ALL routes
+app.options('*', cors());
 
 
 // ── Body Parsing ───────────────────────────────────────────────────────────
@@ -87,9 +91,6 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/institutes', instituteRouter);
 app.use('/api/v1/ai', aiRouter);
-app.use('/api/v1/assessments', assessmentRouter);
-app.use('/api/v1/profile', profileRouter);
-app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/contact', contactRouter);
 app.use('/api/v1/industry', industryRouter);
 app.use('/api/v1/analytics', analyticsRouter);
