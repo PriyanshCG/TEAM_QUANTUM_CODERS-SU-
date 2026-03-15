@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 SkillSense AI
+# 🚀 SkillSense AI by TSD101 Quantum Coders Team
 
 ### AI Powered Learning & Skill Analysis Platform
 
