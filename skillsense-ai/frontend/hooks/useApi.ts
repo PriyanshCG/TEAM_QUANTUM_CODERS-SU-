@@ -1,5 +1,4 @@
-'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/v1';
@@ -10,10 +9,10 @@ interface ApiState<T> {
   error: string | null;
 }
 
-export function useApi<T>() {
+export function useApi<T>(url?: string) {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
-    loading: false,
+    loading: !!url,
     error: null,
   });
 
@@ -30,7 +29,7 @@ export function useApi<T>() {
         data: body,
         withCredentials: true,
       });
-      setState({ data: res.data, loading: false, error: null });
+      setState({ data: res.data.data || res.data, loading: false, error: null });
       return res.data;
     } catch (err: unknown) {
       const message = axios.isAxiosError(err)
@@ -41,5 +40,16 @@ export function useApi<T>() {
     }
   }, []);
 
-  return { ...state, request };
+  const refetch = useCallback(async () => {
+    if (!url) return;
+    return request('GET', url);
+  }, [url, request]);
+
+  useEffect(() => {
+    if (url) {
+      refetch();
+    }
+  }, [url, refetch]);
+
+  return { ...state, request, refetch };
 }

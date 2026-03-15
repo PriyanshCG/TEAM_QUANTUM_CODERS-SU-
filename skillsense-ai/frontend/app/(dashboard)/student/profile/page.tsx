@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const GOLD = '#D4A843';
-const API = process.env.NEXT_PUBLIC_API_URL || 'https://skillsense-backend.onrender.com/api/v1';
+import api from '@/lib/api';
 
 interface UserProfile {
     name: string;
@@ -63,9 +63,8 @@ export default function ProfilePage() {
         } catch { /* fallback */ }
 
         // Try fetching from API
-        fetch(`${API}/profile`, { credentials: 'include' })
-            .then(r => r.ok ? r.json() : null)
-            .then(data => { if (data?.user) setProfile(prev => ({ ...prev, ...data.user })); })
+        api.get('/profile')
+            .then(r => { if (r.data?.data?.user) setProfile(prev => ({ ...prev, ...r.data.data.user })); })
             .catch(() => { /* use local data */ });
     }, []);
 
@@ -77,38 +76,20 @@ export default function ProfilePage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch(`${API}/profile/update`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({
-                    name: profile.name,
-                    bio: profile.bio,
-                    location: profile.location,
-                    skills: profile.skills,
-                }),
+            await api.put('/profile/update', {
+                name: profile.name,
+                bio: profile.bio,
+                location: profile.location,
+                skills: profile.skills,
             });
-            if (res.ok) {
-                // Also update localStorage
+            // Also update localStorage
                 const stored = localStorage.getItem('ss_user');
                 if (stored) {
                     const parsed = JSON.parse(stored);
                     localStorage.setItem('ss_user', JSON.stringify({ ...parsed, ...profile }));
-                }
-                showToast('Profile updated successfully!');
-                setEditing(false);
-            } else {
-                // Still save locally for demo
-                const stored = localStorage.getItem('ss_user');
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    localStorage.setItem('ss_user', JSON.stringify({ ...parsed, ...profile }));
-                } else {
-                    localStorage.setItem('ss_user', JSON.stringify(profile));
                 }
                 showToast('Profile saved locally!');
                 setEditing(false);
-            }
         } catch {
             // Save locally as fallback
             localStorage.setItem('ss_user', JSON.stringify(profile));
@@ -138,17 +119,15 @@ export default function ProfilePage() {
         try {
             const formData = new FormData();
             formData.append('avatar', file);
-            const res = await fetch(`${API}/profile/avatar`, {
-                method: 'POST', credentials: 'include', body: formData,
-            });
-            if (res.ok) {
-                const data = await res.json();
-                saveAvatarLocally(data.avatarUrl || data.avatar);
-            } else {
+            api.post('/profile/avatar', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then(res => {
+                saveAvatarLocally(res.data?.data?.avatarUrl || res.data?.data?.avatar);
+            }).catch(() => {
                 const reader = new FileReader();
                 reader.onload = (ev) => saveAvatarLocally(ev.target?.result as string);
                 reader.readAsDataURL(file);
-            }
+            });
         } catch {
             const reader = new FileReader();
             reader.onload = (ev) => saveAvatarLocally(ev.target?.result as string);

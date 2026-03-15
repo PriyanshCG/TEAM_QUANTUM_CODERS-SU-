@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import ReportGenerator from '../../../../components/dashboard/ReportGenerator';
-import { downloadPageAsPDF } from '../../../../utils/downloadPDF';
+import ReportGenerator from '@/components/dashboard/ReportGenerator';
+import { downloadPageAsPDF } from '@/utils/downloadPDF';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';

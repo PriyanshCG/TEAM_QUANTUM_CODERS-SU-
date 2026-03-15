@@ -5,8 +5,8 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     AreaChart, Area,
 } from 'recharts';
-import { sampleInstitutions } from '../../../data/sampleInstitutions';
-import { samplePlacements } from '../../../data/samplePlacements';
+import { sampleInstitutions } from '@/data/sampleInstitutions';
+import { samplePlacements } from '@/data/samplePlacements';
 
 const inst = sampleInstitutions[0];
 const GOLD = '#D4A843';
@@ -14,7 +14,13 @@ const GOLD_L = '#F0C05A';
 const AMBER = '#F59E0B';
 const ORANGE = '#F97316';
 
-const Tip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    label?: string;
+}
+
+const Tip = ({ active, payload, label }: CustomTooltipProps) => {
     if (!active || !payload?.length) return null;
     return (
         <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>

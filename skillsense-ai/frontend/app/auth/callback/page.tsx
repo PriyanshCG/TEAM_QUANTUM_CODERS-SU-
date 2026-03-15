@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuthStore } from '../../../store/authStore';
-import { setTokens } from '../../../lib/auth';
+import { useAuthStore } from '@/store/authStore';
+import { setTokens } from '@/lib/auth';
 
 // ── Role → dashboard route map ─────────────────────────────────────────────────
 const ROLE_ROUTES: Record<string, string> = {

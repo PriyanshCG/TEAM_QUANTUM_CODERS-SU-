@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { sampleInstitutions } from '../../../../data/sampleInstitutions';
+import { Building } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -13,8 +14,8 @@ export default function InstitutesPage() {
     return (
         <div style={{ color: WHITE, maxWidth: 1100 }}>
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    🏫 Institute <span style={{ color: GOLD }}>Registry</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <Building size={28} style={{ color: GOLD, marginRight: 10 }} /> Institute <span style={{ color: GOLD, marginLeft: 6 }}>Registry</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     {sampleInstitutions.length} registered institutions

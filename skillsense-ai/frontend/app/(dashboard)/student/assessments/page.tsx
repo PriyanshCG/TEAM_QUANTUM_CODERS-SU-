@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sampleStudents } from '../../../../data/sampleStudents';
+import { sampleStudents } from '@/data/sampleStudents';
+import { FileCheck, RotateCcw, Lock, Play } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -43,8 +44,8 @@ export default function AssessmentsPage() {
     return (
         <div style={{ color: WHITE, maxWidth: 960 }}>
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    📝 <span style={{ color: GOLD }}>Assessments</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <FileCheck size={28} style={{ color: GOLD, marginRight: 10 }} /> <span style={{ color: GOLD }}>Assessments</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     Skill assessments & certification progress
@@ -165,7 +166,7 @@ export default function AssessmentsPage() {
                                         cursor: assessment.status === 'locked' ? 'not-allowed' : 'pointer',
                                     }}
                                 >
-                                    {assessment.status === 'completed' ? '↺ Retake' : assessment.status === 'locked' ? '🔒 Locked' : '▶ Start'}
+                                    {assessment.status === 'completed' ? <><RotateCcw size={12} style={{ marginRight: 6 }}/> Retake</> : assessment.status === 'locked' ? <><Lock size={12} style={{ marginRight: 6 }}/> Locked</> : <><Play size={12} style={{ marginRight: 6 }} fill="currentColor" /> Start</>}
                                 </button>
                             </div>
                         </div>

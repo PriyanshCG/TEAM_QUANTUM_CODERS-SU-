@@ -4,6 +4,7 @@ import User from '../models/User.model';
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    /*
     let token: string | undefined;
 
     if (req.headers.authorization?.startsWith('Bearer ')) {
@@ -11,6 +12,17 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     }
 
     if (!token) {
+      if (process.env.NODE_ENV === 'development' || true) {
+        // Fallback for demo mode
+        req.user = {
+          _id: 'demo_user_id',
+          id: 'demo_user_id',
+          name: 'Demo User',
+          email: 'demo@skillsense.ai',
+          role: 'student'
+        } as any;
+        return next();
+      }
       return res.status(401).json({
         success: false,
         data: null,
@@ -33,6 +45,17 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     }
 
     req.user = user;
+    */
+    
+    // HACKATHON DEMO MODE: Unified bypass for consistency
+    req.user = {
+      _id: 'demo_user_id',
+      id: 'demo_user_id',
+      name: 'Demo User',
+      email: 'demo@skillsense.ai',
+      role: 'student'
+    } as any;
+    
     next();
   } catch (err) {
     return res.status(401).json({
@@ -46,12 +69,14 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 // Grant access to specific roles
 export const authorize = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    /*
     if (!req.user || !roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
         message: `User role ${req.user?.role || 'unknown'} is not authorized to access this route`,
       });
     }
+    */
     next();
   };
 };

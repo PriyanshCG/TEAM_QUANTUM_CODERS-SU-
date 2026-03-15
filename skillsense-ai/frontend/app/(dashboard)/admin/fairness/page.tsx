@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import FairnessDistribution from '../../../../components/charts/FairnessDistribution';
-import { sampleFairnessMetrics, sampleFairnessHistory } from '../../../../data/sampleFairnessMetrics';
+import FairnessDistribution from '@/components/charts/FairnessDistribution';
+import { sampleFairnessMetrics, sampleFairnessHistory } from '@/data/sampleFairnessMetrics';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';

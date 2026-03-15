@@ -1,12 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    // Allow builds even with type errors during hackathon dev
+    // Zero Tolerance Error Nuke: Enforce checks during build
     typescript: {
-        ignoreBuildErrors: true,
-    },
-    eslint: {
-        ignoreDuringBuilds: true,
+        ignoreBuildErrors: false,
     },
 };
 

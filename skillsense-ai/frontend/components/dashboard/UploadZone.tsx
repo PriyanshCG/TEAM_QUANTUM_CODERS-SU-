@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import type { UploadJob } from '../../types/charts';
 import { useDashboardStore } from '../../store/dashboardStore';
+import { FolderUp } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -92,7 +93,7 @@ export default function UploadZone() {
                     textAlign: 'center',
                 }}
             >
-                <span style={{ fontSize: 36 }}>📂</span>
+                <FolderUp size={48} style={{ color: dragging ? GOLD : MUTED, marginBottom: 8, transition: 'color 0.2s' }} />
                 <div>
                     <p style={{ margin: 0, color: WHITE, fontSize: 14, fontWeight: 600 }}>
                         {dragging ? 'Drop files here' : 'Drag & drop files'}

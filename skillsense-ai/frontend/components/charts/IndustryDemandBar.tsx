@@ -62,7 +62,7 @@ const CustomTooltip = ({ active, payload }: any) => {
                     </span>
                 </p>
                 <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    Avg Salary: <span style={{ color: GOLD }}>₹{d.avgSalary.toLocaleString('en-IN')}</span>
+                    Avg Salary: <span style={{ color: GOLD }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
                 </p>
                 <p style={{ fontSize: 11, margin: '6px 0 0', color: GAP_COLORS[d.supplyGap] }}>
                     Supply Gap: {d.supplyGap.toUpperCase()}

@@ -5,8 +5,8 @@ import {
     RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer,
     AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 } from 'recharts';
-import { sampleStudents } from '../../../data/sampleStudents';
-import { downloadPageAsPDF } from '../../../utils/downloadPDF';
+import { sampleStudents } from '@/data/sampleStudents';
+import { downloadPageAsPDF } from '@/utils/downloadPDF';
 
 const S = sampleStudents[0];
 const GOLD = '#D4A843';
@@ -50,7 +50,13 @@ const careers = [
     { role: 'AI/ML Engineer', salary: '14.0–25.0 LPA', demand: 'Emerging', match: 62 },
 ];
 
-const Tip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    label?: string;
+}
+
+const Tip = ({ active, payload, label }: CustomTooltipProps) => {
     if (!active || !payload?.length) return null;
     return (
         <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>

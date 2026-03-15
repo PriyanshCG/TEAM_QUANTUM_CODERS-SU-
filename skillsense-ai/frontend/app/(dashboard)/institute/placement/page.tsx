@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import PlacementLineChart from '../../../../components/charts/PlacementLineChart';
-import KPICard from '../../../../components/dashboard/KPICard';
-import { samplePlacements } from '../../../../data/samplePlacements';
+import PlacementLineChart from '@/components/charts/PlacementLineChart';
+import KPICard from '@/components/dashboard/KPICard';
+import { samplePlacements } from '@/data/samplePlacements';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -25,7 +25,7 @@ export default function PlacementPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
                 <KPICard label="Placed This Month" value={latest.placedCount} trend={Math.round(((latest.placedCount - prev.placedCount) / prev.placedCount) * 100)} trendDirection="up" icon="+" />
                 <KPICard label="Placement Rate" value={latest.placementRate} unit="%" trend={parseFloat((latest.placementRate - prev.placementRate).toFixed(1))} trendDirection="up" icon="%" />
-                <KPICard label="Avg Salary" value={latest.avgSalary} unit="₹" trend={Math.round(((latest.avgSalary - prev.avgSalary) / prev.avgSalary) * 100)} trendDirection="up" icon="₹" />
+                <KPICard label="Avg Salary" value={latest.avgSalary} unit="\u20B9" trend={Math.round(((latest.avgSalary - prev.avgSalary) / prev.avgSalary) * 100)} trendDirection="up" icon="\u20B9" />
                 <KPICard label="Female %" value={latest.femalePercent} unit="%" trend={1} trendDirection="up" icon="F" />
                 <KPICard label="Top Sector" value={latest.topSector} icon="S" />
             </div>
@@ -52,7 +52,7 @@ export default function PlacementPage() {
                                 <td style={{ padding: '10px 14px', color: i === 0 ? GOLD : WHITE, fontWeight: i === 0 ? 700 : 400, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.month}{i === 0 && ' (latest)'}</td>
                                 <td style={{ padding: '10px 14px', color: WHITE, fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.placedCount}</td>
                                 <td style={{ padding: '10px 14px', color: row.placementRate >= 75 ? '#22c55e' : GOLD, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.placementRate}%</td>
-                                <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>₹{row.avgSalary.toLocaleString('en-IN')}</td>
+                                <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>&#8377;{row.avgSalary.toLocaleString('en-IN')}</td>
                                 <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.femalePercent}%</td>
                                 <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.topSector}</td>
                             </tr>

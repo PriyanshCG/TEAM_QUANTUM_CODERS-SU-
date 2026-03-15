@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const GOLD = '#D4A843';
 const AMBER = '#F59E0B';
@@ -16,7 +17,7 @@ const NAV = [
             { label: 'My Submissions', href: '/student/submissions' },
             { label: 'Assessments', href: '/student/assessments' },
             { label: 'Tests', href: '/student/tests' },
-            { label: 'Leaderboard', href: '/student/leaderboard', badge: '🔥' },
+            { label: 'Leaderboard', href: '/student/leaderboard', badge: 'HOT' },
             { label: 'Find Jobs', href: '/student/jobs', badge: 'NEW' },
             { label: 'Career Path', href: '/student/career' },
             { label: 'Profile', href: '/student/profile' },
@@ -389,8 +390,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </header>
 
                 {/* Page content */}
-                <main style={{ flex: 1, padding: '28px', overflowY: 'auto' }}>
-                    {children}
+                <main style={{ flex: 1, padding: '28px', overflowY: 'auto', position: 'relative' }}>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={pathname}
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -15 }}
+                            transition={{ duration: 0.3, ease: 'easeOut' }}
+                            style={{ minHeight: '100%' }}
+                        >
+                            {children}
+                        </motion.div>
+                    </AnimatePresence>
                 </main>
             </div>
 

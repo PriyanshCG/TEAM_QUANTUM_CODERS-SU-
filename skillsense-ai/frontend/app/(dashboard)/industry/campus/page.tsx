@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sampleInstitutions } from '../../../../data/sampleInstitutions';
+import { sampleInstitutions } from '@/data/sampleInstitutions';
+import { Handshake, ClipboardList } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -96,8 +97,8 @@ export default function CampusPage() {
             )}
 
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    🤝 Campus <span style={{ color: GOLD }}>Connect</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <Handshake size={28} style={{ color: GOLD, marginRight: 10 }} /> Campus <span style={{ color: GOLD, marginLeft: 6 }}>Connect</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     Partner with top-performing institutions for direct campus hiring
@@ -178,7 +179,7 @@ export default function CampusPage() {
                             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,168,67,0.1)'; }}
                             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                         >
-                            📋 Request Campus Drive
+                            <ClipboardList size={16} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }} /> Request Campus Drive
                         </button>
                     </div>
                 ))}
@@ -357,7 +358,7 @@ export default function CampusPage() {
                                                 Sending Request...
                                             </>
                                         ) : (
-                                            '📋 Submit Campus Drive Request'
+                                            <><ClipboardList size={18} /> Submit Campus Drive Request</>
                                         )}
                                     </button>
                                 </form>

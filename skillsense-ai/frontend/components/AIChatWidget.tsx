@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import api from '../lib/api';
 import { useAuth } from '@/hooks/useAuth';
-import { ChatMessage } from '@/types/api';
 import toast from 'react-hot-toast';
+import { MessageCircle, Bot, X } from 'lucide-react';
 
 /* ── Types ───────────────────────────────────────────── */
 interface Message {
@@ -38,7 +38,7 @@ export default function AIChatWidget() {
         {
             id: '0',
             role: 'assistant',
-            content: "👋 Hi! I'm SkillSense AI. Ask me anything about careers, skills, or job preparation in India!",
+            content: "Hi! I'm SkillSense AI. Ask me anything about careers, skills, or job preparation in India!",
             suggestions: ["What skills are in demand in 2025?", "How do I crack a tech interview?", "What is NSQF certification?"],
         },
     ]);
@@ -105,7 +105,7 @@ export default function AIChatWidget() {
             setMessages(prev => [...prev, {
                 id: Date.now().toString() + '_err',
                 role: 'assistant',
-                content: "I'm having trouble connecting right now. Please try again in a moment! 🙏",
+                content: "I'm having trouble connecting right now. Please try again in a moment!",
                 suggestions: ['What is JavaScript?', 'How to get a job in IT?'],
             }]);
         } finally {
@@ -156,7 +156,7 @@ export default function AIChatWidget() {
                 aria-label="Open AI Chat"
                 title="Chat with SkillSense AI"
             >
-                {open ? '✕' : '💬'}
+                {open ? <X size={24} /> : <MessageCircle size={24} />}
             </button>
 
             {/* ── Chat Panel ──────────────────────────────────────── */}
@@ -173,7 +173,7 @@ export default function AIChatWidget() {
                 }}>
                     {/* Header */}
                     <div style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: 10, background: `linear-gradient(135deg, ${INDIGO}18, ${PURPLE}14)`, flexShrink: 0 }}>
-                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🧠</div>
+                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Bot size={20} color="#fff" /></div>
                         <div style={{ flex: 1 }}>
                             <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>SkillSense AI</div>
                             <div style={{ fontSize: 10, color: '#22c55e', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -183,7 +183,7 @@ export default function AIChatWidget() {
                         <button onClick={async () => {
                              if (confirm('Clear all chat history?')) {
                                  await api.get('/ai/history?clear=true'); // Backend usually handles this or just clear local
-                                 setMessages([{ id: '0', role: 'assistant', content: "👋 Hi! I'm SkillSense AI. How can I help you today?", suggestions: ["What skills are in demand?", "Help me prepare for interviews", "What is NSQF?"] }]);
+                                 setMessages([{ id: '0', role: 'assistant', content: "Hi! I'm SkillSense AI. How can I help you today?", suggestions: ["What skills are in demand?", "Help me prepare for interviews", "What is NSQF?"] }]);
                                  toast.success('Chat history cleared');
                              }
                         }}
@@ -201,7 +201,7 @@ export default function AIChatWidget() {
                             <div key={msg.id}>
                                 <div style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
                                     {msg.role === 'assistant' && (
-                                        <div style={{ width: 24, height: 24, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0, marginRight: 6, alignSelf: 'flex-end' }}>🧠</div>
+                                        <div style={{ width: 24, height: 24, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginRight: 6, alignSelf: 'flex-end' }}><Bot size={14} color="#fff" /></div>
                                     )}
                                     <div className={msg.role === 'user' ? 'chat-msg-user' : 'chat-msg-ai'}
                                         style={{ maxWidth: '78%', padding: '10px 14px', fontSize: 13, lineHeight: 1.65, color: '#fff', wordBreak: 'break-word' }}>
@@ -225,7 +225,7 @@ export default function AIChatWidget() {
 
                         {loading && (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <div style={{ width: 24, height: 24, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11 }}>🧠</div>
+                                <div style={{ width: 24, height: 24, borderRadius: '50%', background: `linear-gradient(135deg, ${INDIGO}, ${PURPLE})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Bot size={14} color="#fff" /></div>
                                 <div className="chat-msg-ai"><TypingDots /></div>
                             </div>
                         )}

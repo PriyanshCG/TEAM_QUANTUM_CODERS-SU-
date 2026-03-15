@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Briefcase, Search } from 'lucide-react';
 
 const GOLD = '#D4A843';
 
@@ -90,13 +91,13 @@ export default function FindJobsPage() {
         .slice(0, 3);
 
     const formatSalary = (s: { min: number; max: number }) =>
-        `₹${(s.min / 100000).toFixed(1)}L – ₹${(s.max / 100000).toFixed(1)}L/yr`;
+        `\u20B9${(s.min / 100000).toFixed(1)}L – \u20B9${(s.max / 100000).toFixed(1)}L/yr`;
 
     return (
         <div>
             <div style={{ marginBottom: 24 }}>
-                <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>
-                    💼 Find <span style={{ color: GOLD }}>Jobs</span>
+                <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center' }}>
+                    <Briefcase size={28} style={{ color: GOLD, marginRight: 10 }} /> Find <span style={{ color: GOLD, marginLeft: 6 }}>Jobs</span>
                 </h1>
                 <p style={{ color: '#64748b', fontSize: 14, marginTop: 4 }}>
                     Discover opportunities matched to your skills
@@ -174,7 +175,7 @@ export default function FindJobsPage() {
 
             {filtered.length === 0 && (
                 <div className="stat-card" style={{ textAlign: 'center', padding: 40 }}>
-                    <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
+                    <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}><Search size={40} style={{ color: '#64748b' }} /></div>
                     <p style={{ color: '#64748b', fontSize: 14 }}>No jobs match your search. Try different filters.</p>
                 </div>
             )}

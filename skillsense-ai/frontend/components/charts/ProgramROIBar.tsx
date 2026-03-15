@@ -40,7 +40,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
                     ROI: <span style={{ color: GOLD, fontWeight: 600 }}>{payload[0].value}%</span>
                 </p>
                 <p style={{ color: MUTED, fontSize: 11, marginTop: 4 }}>
-                    ₹1 invested → ₹{(payload[0].value / 100 + 1).toFixed(2)} returned
+                    &#8377;1 invested → &#8377;{(payload[0].value / 100 + 1).toFixed(2)} returned
                 </p>
             </div>
         );

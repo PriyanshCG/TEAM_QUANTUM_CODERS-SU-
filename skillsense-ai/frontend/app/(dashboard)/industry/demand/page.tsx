@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import IndustryDemandBar from '../../../../components/charts/IndustryDemandBar';
-import SkillForecastArea from '../../../../components/charts/SkillForecastArea';
-import { sampleIndustryDemand } from '../../../../data/sampleIndustryDemand';
-import type { ForecastEntry } from '../../../../types/charts';
+import IndustryDemandBar from '@/components/charts/IndustryDemandBar';
+import SkillForecastArea from '@/components/charts/SkillForecastArea';
+import { sampleIndustryDemand } from '@/data/sampleIndustryDemand';
+import type { ForecastEntry } from '@/types/charts';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -74,7 +74,7 @@ export default function DemandPage() {
                                 <td style={{ padding: '10px 14px', color: d.growthPercent > 50 ? '#22c55e' : d.growthPercent > 0 ? GOLD : '#ef4444', fontWeight: 700, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                     {d.growthPercent >= 0 ? '+' : ''}{d.growthPercent}%
                                 </td>
-                                <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>₹{d.avgSalary.toLocaleString('en-IN')}</td>
+                                <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</td>
                                 <td style={{ padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                     <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20, background: d.supplyGap === 'critical' ? 'rgba(239,68,68,0.15)' : d.supplyGap === 'moderate' ? 'rgba(212,168,67,0.15)' : 'rgba(34,197,94,0.12)', color: d.supplyGap === 'critical' ? '#ef4444' : d.supplyGap === 'moderate' ? GOLD : '#22c55e', border: `1px solid ${d.supplyGap === 'critical' ? 'rgba(239,68,68,0.3)' : d.supplyGap === 'moderate' ? 'rgba(212,168,67,0.3)' : 'rgba(34,197,94,0.3)'}` }}>
                                         {d.supplyGap}

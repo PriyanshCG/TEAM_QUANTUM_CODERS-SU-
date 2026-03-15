@@ -142,7 +142,7 @@ export default function CareerPathwayCard({ pathway, onSelect }: Props) {
                                 Salary Range
                             </p>
                             <p style={{ margin: '2px 0 0', fontSize: 13, color: WHITE, fontWeight: 600 }}>
-                                ₹{(pathway.salaryRange.min / 1000).toFixed(0)}K–{(pathway.salaryRange.max / 1000).toFixed(0)}K/mo
+                                &#8377;{(pathway.salaryRange.min / 1000).toFixed(0)}K–{(pathway.salaryRange.max / 1000).toFixed(0)}K/mo
                             </p>
                         </div>
                         <div>

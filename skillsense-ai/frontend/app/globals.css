@@ -75,15 +75,30 @@ body {
 
 /* ── Cards ── */
 .glass {
-  background: rgba(212, 168, 67, 0.03);
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.03), rgba(212, 168, 67, 0.01));
   border: 1px solid rgba(212, 168, 67, 0.1);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass:hover {
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.04), rgba(212, 168, 67, 0.015));
+  border-color: rgba(212, 168, 67, 0.15);
 }
 
 .glass-bright {
-  background: rgba(212, 168, 67, 0.05);
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.06), rgba(212, 168, 67, 0.02));
   border: 1px solid rgba(212, 168, 67, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+}
+
+.glass-bright:hover {
+  border-color: rgba(212, 168, 67, 0.25);
 }
 
 .stat-card {
@@ -132,36 +147,42 @@ body {
   font-weight: 800;
   font-size: 14px;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Space Grotesk', sans-serif;
+  box-shadow: 0 4px 14px 0 rgba(212, 168, 67, 0.25);
 }
 
 .btn-primary:hover {
-  opacity: 0.88;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 168, 67, 0.4);
+  background: linear-gradient(135deg, #e4b853, #fcd06a);
 }
 
 .btn-primary:active {
   transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(212, 168, 67, 0.25);
 }
 
 .btn-ghost {
   background: rgba(212, 168, 67, 0.07);
-  color: #cbd5e1;
+  color: #fff;
   border: 1px solid rgba(212, 168, 67, 0.15);
   border-radius: 10px;
   padding: 10px 22px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Space Grotesk', sans-serif;
+  backdrop-filter: blur(8px);
 }
 
 .btn-ghost:hover {
   background: rgba(212, 168, 67, 0.12);
   color: #fff;
-  border-color: rgba(212, 168, 67, 0.3);
+  border-color: rgba(212, 168, 67, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Typography ── */

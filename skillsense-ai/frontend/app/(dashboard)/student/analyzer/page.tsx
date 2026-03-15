@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sampleStudents } from '../../../../data/sampleStudents';
+import { sampleStudents } from '@/data/sampleStudents';
 
 const GOLD = '#D4A843';
 const GOLD_L = '#F0C05A';

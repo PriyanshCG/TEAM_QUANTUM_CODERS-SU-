@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const GOLD = '#D4A843';
 const GOLD_L = '#F0C05A';
-const API = process.env.NEXT_PUBLIC_API_URL || 'https://skillsense-backend.onrender.com/api/v1';
+import api from '@/lib/api';
 
 interface IndustryModalProps {
     isOpen: boolean;
@@ -37,18 +37,8 @@ export default function IndustryModal({ isOpen, onClose, selectedPlan }: Industr
         setSubmitting(true);
 
         try {
-            const res = await fetch(`${API}/contact/industry`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ ...form, plan: selectedPlan }),
-            });
-            if (res.ok) {
-                setSubmitted(true);
-            } else {
-                // Fallback success for demo
-                setSubmitted(true);
-            }
+            await api.post('/contact/industry', { ...form, plan: selectedPlan });
+            setSubmitted(true);
         } catch {
             // Still show success for demo
             setSubmitted(true);

@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import RegionHeatmap from '../../../../components/charts/RegionHeatmap';
-import type { RegionData } from '../../../../types/charts';
+import RegionHeatmap from '@/components/charts/RegionHeatmap';
+import { Flag } from 'lucide-react';
+import type { RegionData } from '@/types/charts';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -73,7 +74,7 @@ export default function HeatmapPage() {
                                 <div>
                                     <p style={{ margin: 0, fontSize: 13, color: WHITE, fontWeight: 500 }}>{r.state}</p>
                                     {r.criticalGaps.length > 0 && (
-                                        <p style={{ margin: '2px 0 0', fontSize: 11, color: '#ef4444' }}>⚑ {r.criticalGaps[0]}{r.criticalGaps.length > 1 ? ` +${r.criticalGaps.length - 1}` : ''}</p>
+                                        <p style={{ margin: '2px 0 0', fontSize: 11, color: '#ef4444', display: 'flex', alignItems: 'center', gap: 4 }}><Flag size={10} /> {r.criticalGaps[0]}{r.criticalGaps.length > 1 ? ` +${r.criticalGaps.length - 1}` : ''}</p>
                                     )}
                                 </div>
                                 <div style={{ textAlign: 'right' }}>

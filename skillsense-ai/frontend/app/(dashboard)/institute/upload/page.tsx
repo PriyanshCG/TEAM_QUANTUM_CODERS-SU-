@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import UploadZone from '../../../../components/dashboard/UploadZone';
+import UploadZone from '@/components/dashboard/UploadZone';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sampleSkillValidations } from '../../../../data/sampleEmployers';
+import { sampleSkillValidations } from '@/data/sampleEmployers';
 
 const GOLD = '#D4A843';
 const CYAN = '#06b6d4';

@@ -2,8 +2,8 @@
 // Zustand auth store — handles login, register, logout, and session rehydration.
 
 import { create } from 'zustand';
-import api from '../lib/api';
-import { setTokens, removeTokens } from '../lib/auth';
+import api from '@/lib/api';
+import { setTokens, removeTokens } from '@/lib/auth';
 
 export type UserRole = 'student' | 'institute' | 'industry' | 'government' | 'admin';
 
@@ -44,20 +44,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (email: string, password: string) => {
     set({ loading: true, error: null });
     try {
-      const { data } = await api.post('/auth/login', { email, password });
-      // Backend returns { success, data: { user, token }, message }
-      const { user, token, accessToken, refreshToken } = data.data;
-      const jwt = token ?? accessToken; // support both field names
-      setTokens(jwt, refreshToken);
-      // Mirror to localStorage for the sidebar display
+      // HACKATHON DEMO: Bypass API
+      const user = { _id: 'demo123', name: 'Demo User', email: 'demo@skillsense.ai', role: 'student' as UserRole, isActive: true, createdAt: new Date().toISOString() };
+      const jwt = 'demo_token';
+      setTokens(jwt, 'demo_refresh');
       if (typeof window !== 'undefined') {
         localStorage.setItem('ss_user', JSON.stringify({ name: user.name, role: user.role, email: user.email }));
       }
       set({ user, accessToken: jwt, loading: false });
     } catch (err: unknown) {
-      const message =
-        (err as { response?: { data?: { message?: string } } }).response?.data?.message ?? 'Login failed. Please check your credentials.';
-      set({ loading: false, error: message });
+      set({ loading: false, error: 'Login failed.' });
       throw err;
     }
   },
@@ -66,18 +62,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (name: string, email: string, password: string, role: UserRole) => {
     set({ loading: true, error: null });
     try {
-      const { data } = await api.post('/auth/register', { name, email, password, role });
-      const { user, token, accessToken, refreshToken } = data.data;
-      const jwt = token ?? accessToken;
-      setTokens(jwt, refreshToken);
+      // HACKATHON DEMO: Bypass API
+      const user = { _id: 'demo123', name, email: 'demo@skillsense.ai', role, isActive: true, createdAt: new Date().toISOString() };
+      const jwt = 'demo_token';
+      setTokens(jwt, 'demo_refresh');
       if (typeof window !== 'undefined') {
         localStorage.setItem('ss_user', JSON.stringify({ name: user.name, role: user.role, email: user.email }));
       }
       set({ user, accessToken: jwt, loading: false });
     } catch (err: unknown) {
-      const message =
-        (err as { response?: { data?: { message?: string } } }).response?.data?.message ?? 'Registration failed. Please try again.';
-      set({ loading: false, error: message });
+      set({ loading: false, error: 'Registration failed.' });
       throw err;
     }
   },
@@ -85,9 +79,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   // ── Logout ────────────────────────────────────────────────────────────────
   logout: async () => {
     try {
-      await api.post('/auth/logout');
+      // HACKATHON DEMO: Bypass API
     } catch {
-      // Ignore logout errors — still clear local state
+      // Ignore
     } finally {
       removeTokens();
       set({ user: null, accessToken: null });
@@ -106,8 +100,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set({ loading: true });
     try {
-      const { data } = await api.get('/auth/me');
-      set({ user: data.data, accessToken: token, loading: false });
+      // HACKATHON DEMO: Bypass API
+      let role = 'student' as UserRole;
+      if (typeof window !== 'undefined') {
+          const stored = localStorage.getItem('ss_user');
+          if (stored) {
+              const parsed = JSON.parse(stored);
+              role = parsed.role || 'student';
+          }
+      }
+      const user = { _id: 'demo123', name: 'Demo User', email: 'demo@skillsense.ai', role, isActive: true, createdAt: new Date().toISOString() };
+      set({ user, accessToken: token, loading: false });
     } catch {
       removeTokens();
       localStorage.removeItem('token');

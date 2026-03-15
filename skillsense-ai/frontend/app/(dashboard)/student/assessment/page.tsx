@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import api from '../../../../lib/api';
+import api from '@/lib/api';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useApi } from '@/hooks/useApi';
 import { AssessmentHistory } from '@/types/api';
 import toast from 'react-hot-toast';
+import { FileJson, Atom, FileTerminal, Box, Database, Layers, Timer, Rocket, Target, AlertTriangle, ClipboardList } from 'lucide-react';
 
 const GOLD   = '#D4A843';
 const AMBER  = '#F59E0B';
@@ -15,12 +16,12 @@ const GREEN  = '#22c55e';
 const RED    = '#ef4444';
 
 const TOPICS = [
-    { id: 'JavaScript',    icon: '🟨', desc: 'Variables, functions, async/await, ES6+' },
-    { id: 'React',         icon: '⚛️',  desc: 'Components, hooks, state management' },
-    { id: 'Python',        icon: '🐍',  desc: 'Syntax, OOP, libraries, data handling' },
-    { id: 'Node.js',       icon: '🟩',  desc: 'Express, REST APIs, file system' },
-    { id: 'SQL',           icon: '🗄️',  desc: 'Queries, joins, aggregations, indexes' },
-    { id: 'System Design', icon: '🏗️',  desc: 'Architecture, scalability, databases' },
+    { id: 'JavaScript',    icon: <FileJson size={22} color={GOLD} />, desc: 'Variables, functions, async/await, ES6+' },
+    { id: 'React',         icon: <Atom size={22} color={INDIGO} />,  desc: 'Components, hooks, state management' },
+    { id: 'Python',        icon: <FileTerminal size={22} color={GREEN} />,  desc: 'Syntax, OOP, libraries, data handling' },
+    { id: 'Node.js',       icon: <Box size={22} color={GREEN} />,  desc: 'Express, REST APIs, file system' },
+    { id: 'SQL',           icon: <Database size={22} color={AMBER} />,  desc: 'Queries, joins, aggregations, indexes' },
+    { id: 'System Design', icon: <Layers size={22} color={INDIGO} />,  desc: 'Architecture, scalability, databases' },
 ];
 
 interface Question {
@@ -42,7 +43,7 @@ interface EvalResult {
 
 export default function AssessmentPage() {
     const { user } = useAuth();
-    const { data: history, refetch: refetchHistory } = useApi<AssessmentHistory[]>('/assessments/history');
+    const { data: history, refetch } = useApi<AssessmentHistory[]>('/assessments/history');
     
     const [phase, setPhase]       = useState<'select' | 'quiz' | 'result'>('select');
     const [topic, setTopic]       = useState('');
@@ -104,7 +105,7 @@ export default function AssessmentPage() {
                 });
                 
                 toast.success('Assessment saved to your profile');
-                refetchHistory();
+                refetch && refetch();
                 setPhase('result');
             } catch (err: any) {
                 setError('Evaluation failed. Please try again.');
@@ -160,7 +161,7 @@ export default function AssessmentPage() {
                 color: topic ? '#fff' : '#475569', border: 'none', cursor: topic ? 'pointer' : 'not-allowed',
                 boxShadow: topic ? '0 4px 20px rgba(99,102,241,0.35)' : 'none', transition: 'all 0.2s',
             }}>
-                {loading ? '⏳ Generating questions...' : '🚀 Start Assessment'}
+                {loading ? <><Timer size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/> Generating questions...</> : <><Rocket size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/> Start Assessment</>}
             </button>
 
             {/* History segment */}
@@ -232,7 +233,7 @@ export default function AssessmentPage() {
                             padding: '10px 24px', borderRadius: 9, border: 'none', fontSize: 13, fontWeight: 700,
                             background: `linear-gradient(135deg, ${INDIGO}, #8b5cf6)`, color: '#fff', cursor: 'pointer',
                         }}>
-                            {loading ? '⏳ Evaluating...' : currentQ < questions.length - 1 ? 'Next Question →' : '🎯 Get Results'}
+                            {loading ? <><Timer size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/> Evaluating...</> : currentQ < questions.length - 1 ? 'Next Question →' : <><Target size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/> Get Results</>}
                         </button>
                     </div>
                 )}
@@ -271,20 +272,20 @@ export default function AssessmentPage() {
                     )}
                     {result.weakAreas.length > 0 && (
                         <div style={{ background: `${RED}08`, border: `1px solid ${RED}20`, borderRadius: 12, padding: '16px' }}>
-                            <div style={{ fontSize: 12, fontWeight: 700, color: RED, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>⚠️ Weak Areas</div>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: RED, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}><AlertTriangle size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 4 }}/> Weak Areas</div>
                             {result.weakAreas.map((w, i) => <div key={i} style={{ fontSize: 13, color: '#94a3b8', marginBottom: 4 }}>• {w}</div>)}
                         </div>
                     )}
                 </div>
 
                 <div style={{ background: `${INDIGO}08`, border: `1px solid ${INDIGO}20`, borderRadius: 12, padding: '16px', marginBottom: 20 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: INDIGO, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>📋 Improvement Plan</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: INDIGO, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}><ClipboardList size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 4 }}/> Improvement Plan</div>
                     <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.65, margin: 0 }}>{result.improvementPlan}</p>
                 </div>
 
                 {result.nextSteps.length > 0 && (
                     <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 12, padding: '16px', marginBottom: 24 }}>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>🚀 Next Steps</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}><Rocket size={14} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 4 }}/> Next Steps</div>
                         {result.nextSteps.map((s, i) => (
                             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
                                 <span style={{ color: GOLD, fontWeight: 700, fontSize: 12, flexShrink: 0 }}>{i + 1}.</span>

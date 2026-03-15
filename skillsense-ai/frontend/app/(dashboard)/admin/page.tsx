@@ -4,15 +4,21 @@ import React, { useState, useEffect } from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
-import { sampleFairnessMetrics } from '../../../data/sampleFairnessMetrics';
-import FairnessDistribution from '../../../components/charts/FairnessDistribution';
+import { sampleFairnessMetrics } from '@/data/sampleFairnessMetrics';
+import FairnessDistribution from '@/components/charts/FairnessDistribution';
 
 const GOLD = '#D4A843';
 const GOLD_L = '#F0C05A';
 const AMBER = '#F59E0B';
-const API = process.env.NEXT_PUBLIC_API_URL || 'https://skillsense-backend.onrender.com/api/v1';
+import api from '@/lib/api';
 
-const Tip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    label?: string;
+}
+
+const Tip = ({ active, payload, label }: CustomTooltipProps) => {
     if (!active || !payload?.length) return null;
     return (
         <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>
@@ -104,9 +110,8 @@ export default function AdminPage() {
     // Try to fetch from API
     useEffect(() => {
         if (activeTab === 'inquiries') {
-            fetch(`${API}/contact/industry`, { credentials: 'include' })
-                .then(r => r.ok ? r.json() : null)
-                .then(data => { if (data?.inquiries?.length) setInquiries(data.inquiries); })
+            api.get('/contact/industry')
+                .then(r => { if (r.data?.data?.inquiries?.length) setInquiries(r.data.data.inquiries); })
                 .catch(() => { /* use demo data */ });
         }
     }, [activeTab]);
@@ -116,12 +121,7 @@ export default function AdminPage() {
             if (inq._id === id) {
                 const newStatus = statusCycle[inq.status];
                 // Try API update
-                fetch(`${API}/contact/industry/${id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                    body: JSON.stringify({ status: newStatus }),
-                }).catch(() => { /* update only locally */ });
+                api.patch(`/contact/industry/${id}`, { status: newStatus }).catch(() => { /* update only locally */ });
                 return { ...inq, status: newStatus };
             }
             return inq;

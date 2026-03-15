@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import api from '@/lib/api';
+import { useApi } from '@/hooks/useApi';
+import { useAuthStore } from '@/store/authStore';
 
 interface AIStatus {
   success: boolean;
@@ -20,11 +23,11 @@ export default function AIHealthPage() {
     setLoading(true);
     setError(null);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
-      const response = await axios.get(`${apiUrl}/ai-health`);
+      const response = await api.get('/ai-health');
       setStatus(response.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to connect to backend');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to connect to backend';
+      setError(message);
     } finally {
       setLoading(false);
     }

@@ -67,8 +67,8 @@ export default function AuthPage() {
     const [selected, setSelected] = useState<string | null>(null);
     const [tab, setTab] = useState<'signin' | 'signup'>('signin');
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('demo@skillsense.ai');
+    const [password, setPassword] = useState('demo123');
     const [showPw, setShowPw] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [overlayOut, setOverlayOut] = useState(false);
@@ -82,6 +82,8 @@ export default function AuthPage() {
         const role = selectedRole?.key || 'student';
         const userName = name.trim() || email.split('@')[0] || 'User';
         localStorage.setItem('ss_user', JSON.stringify({ name: userName, role, email }));
+        document.cookie = `skillsense_token=demo_token_123; path=/; max-age=86400; SameSite=Lax`;
+        document.cookie = `skillsense_role=${role}; path=/; max-age=86400; SameSite=Lax`;
         setShowOverlay(true);
         redirectRef.current = setTimeout(() => {
             setOverlayOut(true);
@@ -118,13 +120,12 @@ export default function AuthPage() {
                         {tab === 'signin' ? 'Welcome back' : 'Create Account'}
                     </h1>
                     <p className="auth-subtitle">
-                        {tab === 'signin' ? 'Sign in to continue to SkillSense AI' : 'Get started with SkillSense AI'}
+                        {tab === 'signin' ? 'Sign in to Demo Mode' : 'Get started with SkillSense AI'}
                     </p>
 
                     {/* Tabs */}
                     <div className="auth-tabs">
-                        <button className={`auth-tab ${tab === 'signin' ? 'auth-tab--active' : ''}`} onClick={() => setTab('signin')}>Sign In</button>
-                        <button className={`auth-tab ${tab === 'signup' ? 'auth-tab--active' : ''}`} onClick={() => setTab('signup')}>Sign Up</button>
+                        <button className={`auth-tab ${tab === 'signin' ? 'auth-tab--active' : ''}`} onClick={() => setTab('signin')}>Demo Mode Login</button>
                     </div>
 
                     {/* Role Selector */}

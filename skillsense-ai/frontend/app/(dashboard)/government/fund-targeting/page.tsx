@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { sampleInstitutions } from '../../../../data/sampleInstitutions';
+import { sampleInstitutions } from '@/data/sampleInstitutions';
+import { DollarSign } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -28,8 +29,8 @@ export default function FundTargetingPage() {
     return (
         <div style={{ color: WHITE, maxWidth: 1100 }}>
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    💸 Fund <span style={{ color: GOLD }}>Targeting</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <DollarSign size={28} style={{ color: GOLD, marginRight: 10 }} /> Fund <span style={{ color: GOLD, marginLeft: 6 }}>Targeting</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     AI-driven fund allocation recommendations for maximum impact
@@ -39,9 +40,9 @@ export default function FundTargetingPage() {
             {/* Summary */}
             <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
                 {[
-                    { label: 'Total Need (₹ Cr)', value: `₹${totalNeeded.toLocaleString('en-IN')} Cr`, color: WHITE },
-                    { label: 'Currently Allocated', value: `₹${totalAllocated.toLocaleString('en-IN')} Cr`, color: GOLD },
-                    { label: 'Funding Gap', value: `₹${gap.toLocaleString('en-IN')} Cr`, color: '#ef4444' },
+                    { label: 'Total Need (\u20B9 Cr)', value: `\u20B9${totalNeeded.toLocaleString('en-IN')} Cr`, color: WHITE },
+                    { label: 'Currently Allocated', value: `\u20B9${totalAllocated.toLocaleString('en-IN')} Cr`, color: GOLD },
+                    { label: 'Funding Gap', value: `\u20B9${gap.toLocaleString('en-IN')} Cr`, color: '#ef4444' },
                     { label: 'States Needing Action', value: FUND_DATA.filter((f) => f.priority === 'Critical' || f.priority === 'High').length, color: '#f59e0b' },
                 ].map((s) => (
                     <div key={s.label} style={{ padding: '14px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, flex: 1, minWidth: 140 }}>
@@ -56,7 +57,7 @@ export default function FundTargetingPage() {
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                     <thead>
                         <tr style={{ background: 'rgba(212,168,67,0.08)' }}>
-                            {['State', 'Region', 'Students', 'Skill Score', 'Need (₹Cr)', 'Allocated (₹Cr)', 'Gap', 'Priority'].map((h) => (
+                            {['State', 'Region', 'Students', 'Skill Score', 'Need (\u20B9Cr)', 'Allocated (\u20B9Cr)', 'Gap', 'Priority'].map((h) => (
                                 <th key={h} style={{ padding: '12px 14px', textAlign: 'left', color: MUTED, fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.08)', whiteSpace: 'nowrap' }}>{h}</th>
                             ))}
                         </tr>
@@ -68,9 +69,9 @@ export default function FundTargetingPage() {
                                 <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.region}</td>
                                 <td style={{ padding: '10px 14px', color: MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.students.toLocaleString('en-IN')}</td>
                                 <td style={{ padding: '10px 14px', color: row.gapScore < 62 ? '#ef4444' : row.gapScore < 68 ? GOLD : WHITE, fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{row.gapScore}</td>
-                                <td style={{ padding: '10px 14px', color: WHITE, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>₹{row.allocationNeeded}</td>
-                                <td style={{ padding: '10px 14px', color: GOLD, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>₹{row.currentAlloc}</td>
-                                <td style={{ padding: '10px 14px', color: '#ef4444', fontWeight: 700, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>₹{row.allocationNeeded - row.currentAlloc}</td>
+                                <td style={{ padding: '10px 14px', color: WHITE, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>&#8377;{row.allocationNeeded}</td>
+                                <td style={{ padding: '10px 14px', color: GOLD, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>&#8377;{row.currentAlloc}</td>
+                                <td style={{ padding: '10px 14px', color: '#ef4444', fontWeight: 700, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>&#8377;{row.allocationNeeded - row.currentAlloc}</td>
                                 <td style={{ padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                     <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20, background: `${PRIORITY_COLORS[row.priority]}15`, border: `1px solid ${PRIORITY_COLORS[row.priority]}40`, color: PRIORITY_COLORS[row.priority] }}>
                                         {row.priority}
@@ -86,7 +87,7 @@ export default function FundTargetingPage() {
             <div style={{ marginTop: 20, padding: '16px 20px', background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 12 }}>
                 <p style={{ margin: '0 0 8px', fontWeight: 700, color: GOLD }}>AI Allocation Recommendation</p>
                 <p style={{ margin: 0, fontSize: 13, color: MUTED, lineHeight: 1.7 }}>
-                    Prioritize Bihar (highest gap, lowest score at 58) with an additional ₹1,600 Cr over 2 years, focused on EV & Solar programs. Redistributing 15% of current North allocation to Central region would improve national equity score by an estimated 4.2 points.
+                    Prioritize Bihar (highest gap, lowest score at 58) with an additional &#8377;1,600 Cr over 2 years, focused on EV & Solar programs. Redistributing 15% of current North allocation to Central region would improve national equity score by an estimated 4.2 points.
                 </p>
             </div>
         </div>

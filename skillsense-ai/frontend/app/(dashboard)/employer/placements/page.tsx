@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
-import { samplePlacementRecords } from '../../../../data/sampleEmployers';
+import { samplePlacementRecords } from '@/data/sampleEmployers';
 
 const GOLD = '#D4A843';
 const GOLD_L = '#F0C05A';
@@ -20,7 +20,13 @@ const sourceLabels: Record<string, string> = {
     'direct-application': 'Direct', 'off-campus': 'Off-Campus',
 };
 
-const Tip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    label?: string;
+}
+
+const Tip = ({ active, payload, label }: CustomTooltipProps) => {
     if (!active || !payload?.length) return null;
     return (
         <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>

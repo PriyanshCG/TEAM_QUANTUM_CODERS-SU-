@@ -40,7 +40,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
                     Placed: <span style={{ color: GOLD }}>{d.placedCount}</span>
                 </p>
                 <p style={{ color: WHITE, fontSize: 13, margin: '3px 0' }}>
-                    Avg Salary: <span style={{ color: GOLD }}>₹{d.avgSalary.toLocaleString('en-IN')}</span>
+                    Avg Salary: <span style={{ color: GOLD }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
                 </p>
                 <p style={{ color: WHITE, fontSize: 13, margin: '3px 0' }}>
                     Rate: <span style={{ color: GOLD }}>{d.placementRate}%</span>

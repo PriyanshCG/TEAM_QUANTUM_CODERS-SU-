@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import ComplianceReport from '../../../../components/dashboard/ComplianceReport';
-import ReportGenerator from '../../../../components/dashboard/ReportGenerator';
+import ComplianceReport from '@/components/dashboard/ComplianceReport';
+import ReportGenerator from '@/components/dashboard/ReportGenerator';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';

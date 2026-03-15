@@ -18,7 +18,7 @@ function useInView(ref: React.RefObject<HTMLElement | null>) {
 const plans = [
     {
         name: 'Starter',
-        price: '₹9,999',
+        price: '\u20B99,999',
         period: '/month',
         highlighted: false,
         features: [
@@ -32,7 +32,7 @@ const plans = [
     },
     {
         name: 'Professional',
-        price: '₹24,999',
+        price: '\u20B924,999',
         period: '/month',
         highlighted: true,
         badge: 'Most Popular',

@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import ProgramROIBar from '../../../../components/charts/ProgramROIBar';
-import { sampleInstitutions } from '../../../../data/sampleInstitutions';
+import ProgramROIBar from '@/components/charts/ProgramROIBar';
+import { sampleInstitutions } from '@/data/sampleInstitutions';
+import { Award } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -85,8 +86,9 @@ export default function ROIPage() {
                                 <td style={{ padding: '10px 14px', color: WHITE, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{prog.program}</td>
                                 <td style={{ padding: '10px 14px', fontWeight: 700, color: prog.roi >= 400 ? '#22c55e' : prog.roi >= 280 ? GOLD : MUTED, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>{prog.roi}%</td>
                                 <td style={{ padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                    <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 10px', borderRadius: 20, background: i === 0 ? 'rgba(34,197,94,0.15)' : i === 1 ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.06)', color: i === 0 ? '#22c55e' : i === 1 ? GOLD : MUTED, border: `1px solid ${i === 0 ? 'rgba(34,197,94,0.3)' : i === 1 ? 'rgba(212,168,67,0.3)' : 'rgba(255,255,255,0.1)'}` }}>
-                                        {i === 0 ? '🥇 Best' : i === 1 ? '🥈 Strong' : '🥉 Good'}
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, fontWeight: 700, padding: '2px 10px', borderRadius: 20, background: i === 0 ? 'rgba(34,197,94,0.15)' : i === 1 ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.06)', color: i === 0 ? '#22c55e' : i === 1 ? GOLD : MUTED, border: `1px solid ${i === 0 ? 'rgba(34,197,94,0.3)' : i === 1 ? 'rgba(212,168,67,0.3)' : 'rgba(255,255,255,0.1)'}` }}>
+                                        <Award size={12} />
+                                        {i === 0 ? 'Best' : i === 1 ? 'Strong' : 'Good'}
                                     </span>
                                 </td>
                             </tr>

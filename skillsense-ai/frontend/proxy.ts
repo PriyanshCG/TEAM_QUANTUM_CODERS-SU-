@@ -26,7 +26,7 @@ const isPublic = (pathname: string): boolean =>
 const isProtected = (pathname: string): boolean =>
   PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
 
   // Always allow public routes through

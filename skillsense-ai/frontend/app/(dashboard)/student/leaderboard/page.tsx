@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Trophy, Award, Star, Flame } from 'lucide-react';
 
 const GOLD = '#D4A843';
 
@@ -14,30 +15,30 @@ interface StudentRanking {
     avgPercentage: number;
     topSubject: string;
     streak: number;
-    badge: string;
+    badge?: React.ReactNode;
 }
 
 const leaderboardData: StudentRanking[] = [
-    { rank: 1, name: 'Priya Sharma', avatar: 'PS', institute: 'IIT Bombay', totalScore: 4850, testsCompleted: 28, avgPercentage: 96, topSubject: 'Data Structures', streak: 14, badge: '🏆' },
-    { rank: 2, name: 'Rahul Verma', avatar: 'RV', institute: 'IIT Delhi', totalScore: 4720, testsCompleted: 26, avgPercentage: 94, topSubject: 'React.js', streak: 11, badge: '🥈' },
-    { rank: 3, name: 'Ananya Iyer', avatar: 'AI', institute: 'BITS Pilani', totalScore: 4680, testsCompleted: 30, avgPercentage: 93, topSubject: 'Machine Learning', streak: 9, badge: '🥉' },
-    { rank: 4, name: 'Arjun Mehta', avatar: 'AM', institute: 'NIIT University', totalScore: 4520, testsCompleted: 24, avgPercentage: 91, topSubject: 'TypeScript', streak: 8, badge: '⭐' },
-    { rank: 5, name: 'Sneha Reddy', avatar: 'SR', institute: 'VIT Vellore', totalScore: 4410, testsCompleted: 25, avgPercentage: 90, topSubject: 'System Design', streak: 7, badge: '⭐' },
-    { rank: 6, name: 'Vikram Nair', avatar: 'VN', institute: 'IIIT Hyderabad', totalScore: 4350, testsCompleted: 22, avgPercentage: 89, topSubject: 'Node.js', streak: 6, badge: '' },
-    { rank: 7, name: 'Kavita Gupta', avatar: 'KG', institute: 'NIT Trichy', totalScore: 4280, testsCompleted: 23, avgPercentage: 88, topSubject: 'Python', streak: 5, badge: '' },
-    { rank: 8, name: 'Deepak Singh', avatar: 'DS', institute: 'IIT Kanpur', totalScore: 4200, testsCompleted: 21, avgPercentage: 87, topSubject: 'Cloud Computing', streak: 10, badge: '' },
-    { rank: 9, name: 'Meera Patel', avatar: 'MP', institute: 'DTU Delhi', totalScore: 4150, testsCompleted: 20, avgPercentage: 86, topSubject: 'DevOps', streak: 4, badge: '' },
-    { rank: 10, name: 'Rohan Joshi', avatar: 'RJ', institute: 'COEP Pune', totalScore: 4080, testsCompleted: 19, avgPercentage: 85, topSubject: 'React.js', streak: 3, badge: '' },
-    { rank: 11, name: 'Aisha Khan', avatar: 'AK', institute: 'Manipal IT', totalScore: 4010, testsCompleted: 22, avgPercentage: 84, topSubject: 'MongoDB', streak: 6, badge: '' },
-    { rank: 12, name: 'Sanjay Rao', avatar: 'SR', institute: 'IIIT Bangalore', totalScore: 3950, testsCompleted: 20, avgPercentage: 83, topSubject: 'Docker', streak: 2, badge: '' },
-    { rank: 13, name: 'Nisha Kumari', avatar: 'NK', institute: 'Amity University', totalScore: 3880, testsCompleted: 18, avgPercentage: 82, topSubject: 'SQL', streak: 4, badge: '' },
-    { rank: 14, name: 'Aditya Saxena', avatar: 'AS', institute: 'SRM Chennai', totalScore: 3820, testsCompleted: 19, avgPercentage: 81, topSubject: 'JavaScript', streak: 5, badge: '' },
-    { rank: 15, name: 'Pooja Menon', avatar: 'PM', institute: 'IIT Madras', totalScore: 3760, testsCompleted: 17, avgPercentage: 80, topSubject: 'AWS', streak: 3, badge: '' },
-    { rank: 16, name: 'Kunal Desai', avatar: 'KD', institute: 'NIT Warangal', totalScore: 3700, testsCompleted: 18, avgPercentage: 79, topSubject: 'Express.js', streak: 2, badge: '' },
-    { rank: 17, name: 'Ritu Agarwal', avatar: 'RA', institute: 'LPU Jalandhar', totalScore: 3640, testsCompleted: 16, avgPercentage: 78, topSubject: 'Next.js', streak: 1, badge: '' },
-    { rank: 18, name: 'Harsh Pandey', avatar: 'HP', institute: 'IIT Kharagpur', totalScore: 3580, testsCompleted: 15, avgPercentage: 77, topSubject: 'Git', streak: 3, badge: '' },
-    { rank: 19, name: 'Sakshi Jain', avatar: 'SJ', institute: 'LNMIIT Jaipur', totalScore: 3520, testsCompleted: 17, avgPercentage: 76, topSubject: 'CSS', streak: 2, badge: '' },
-    { rank: 20, name: 'Omkar Bhatt', avatar: 'OB', institute: 'IIT Roorkee', totalScore: 3460, testsCompleted: 16, avgPercentage: 75, topSubject: 'HTML', streak: 4, badge: '' },
+    { rank: 1, name: 'Priya Sharma', avatar: 'PS', institute: 'IIT Bombay', totalScore: 4850, testsCompleted: 28, avgPercentage: 96, topSubject: 'Data Structures', streak: 14, badge: <Trophy size={16} color="#eab308" /> },
+    { rank: 2, name: 'Rahul Verma', avatar: 'RV', institute: 'IIT Delhi', totalScore: 4720, testsCompleted: 26, avgPercentage: 94, topSubject: 'React.js', streak: 11, badge: <Award size={16} color="#94a3b8" /> },
+    { rank: 3, name: 'Ananya Iyer', avatar: 'AI', institute: 'BITS Pilani', totalScore: 4680, testsCompleted: 30, avgPercentage: 93, topSubject: 'Machine Learning', streak: 9, badge: <Award size={16} color="#b45309" /> },
+    { rank: 4, name: 'Arjun Mehta', avatar: 'AM', institute: 'NIIT University', totalScore: 4520, testsCompleted: 24, avgPercentage: 91, topSubject: 'TypeScript', streak: 8, badge: <Star size={16} color="#eab308" /> },
+    { rank: 5, name: 'Sneha Reddy', avatar: 'SR', institute: 'VIT Vellore', totalScore: 4410, testsCompleted: 25, avgPercentage: 90, topSubject: 'System Design', streak: 7, badge: <Star size={16} color="#eab308" /> },
+    { rank: 6, name: 'Vikram Nair', avatar: 'VN', institute: 'IIIT Hyderabad', totalScore: 4350, testsCompleted: 22, avgPercentage: 89, topSubject: 'Node.js', streak: 6 },
+    { rank: 7, name: 'Kavita Gupta', avatar: 'KG', institute: 'NIT Trichy', totalScore: 4280, testsCompleted: 23, avgPercentage: 88, topSubject: 'Python', streak: 5 },
+    { rank: 8, name: 'Deepak Singh', avatar: 'DS', institute: 'IIT Kanpur', totalScore: 4200, testsCompleted: 21, avgPercentage: 87, topSubject: 'Cloud Computing', streak: 10 },
+    { rank: 9, name: 'Meera Patel', avatar: 'MP', institute: 'DTU Delhi', totalScore: 4150, testsCompleted: 20, avgPercentage: 86, topSubject: 'DevOps', streak: 4 },
+    { rank: 10, name: 'Rohan Joshi', avatar: 'RJ', institute: 'COEP Pune', totalScore: 4080, testsCompleted: 19, avgPercentage: 85, topSubject: 'React.js', streak: 3 },
+    { rank: 11, name: 'Aisha Khan', avatar: 'AK', institute: 'Manipal IT', totalScore: 4010, testsCompleted: 22, avgPercentage: 84, topSubject: 'MongoDB', streak: 6 },
+    { rank: 12, name: 'Sanjay Rao', avatar: 'SR', institute: 'IIIT Bangalore', totalScore: 3950, testsCompleted: 20, avgPercentage: 83, topSubject: 'Docker', streak: 2 },
+    { rank: 13, name: 'Nisha Kumari', avatar: 'NK', institute: 'Amity University', totalScore: 3880, testsCompleted: 18, avgPercentage: 82, topSubject: 'SQL', streak: 4 },
+    { rank: 14, name: 'Aditya Saxena', avatar: 'AS', institute: 'SRM Chennai', totalScore: 3820, testsCompleted: 19, avgPercentage: 81, topSubject: 'JavaScript', streak: 5 },
+    { rank: 15, name: 'Pooja Menon', avatar: 'PM', institute: 'IIT Madras', totalScore: 3760, testsCompleted: 17, avgPercentage: 80, topSubject: 'AWS', streak: 3 },
+    { rank: 16, name: 'Kunal Desai', avatar: 'KD', institute: 'NIT Warangal', totalScore: 3700, testsCompleted: 18, avgPercentage: 79, topSubject: 'Express.js', streak: 2 },
+    { rank: 17, name: 'Ritu Agarwal', avatar: 'RA', institute: 'LPU Jalandhar', totalScore: 3640, testsCompleted: 16, avgPercentage: 78, topSubject: 'Next.js', streak: 1 },
+    { rank: 18, name: 'Harsh Pandey', avatar: 'HP', institute: 'IIT Kharagpur', totalScore: 3580, testsCompleted: 15, avgPercentage: 77, topSubject: 'Git', streak: 3 },
+    { rank: 19, name: 'Sakshi Jain', avatar: 'SJ', institute: 'LNMIIT Jaipur', totalScore: 3520, testsCompleted: 17, avgPercentage: 76, topSubject: 'CSS', streak: 2 },
+    { rank: 20, name: 'Omkar Bhatt', avatar: 'OB', institute: 'IIT Roorkee', totalScore: 3460, testsCompleted: 16, avgPercentage: 75, topSubject: 'HTML', streak: 4 },
 ];
 
 const rankColors: Record<number, { bg: string; border: string; text: string; glow: string }> = {
@@ -58,8 +59,8 @@ export default function LeaderboardPage() {
     return (
         <div>
             <div style={{ marginBottom: 24 }}>
-                <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>
-                    🏅 <span style={{ color: GOLD }}>Leaderboard</span>
+                <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center' }}>
+                    <Award size={32} style={{ color: GOLD, marginRight: 10 }} /> <span style={{ color: GOLD }}>Leaderboard</span>
                 </h1>
                 <p style={{ color: '#64748b', fontSize: 14, marginTop: 4 }}>
                     Top performers across all assessments
@@ -291,7 +292,7 @@ export default function LeaderboardPage() {
                                     {/* Streak */}
                                     <td style={{ padding: '14px 16px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                                            <span style={{ fontSize: 14 }}>🔥</span>
+                                            <span style={{ display: 'flex', alignItems: 'center' }}><Flame size={16} color={student.streak >= 10 ? '#ef4444' : student.streak >= 5 ? '#F59E0B' : '#64748b'} /></span>
                                             <span style={{
                                                 fontSize: 13, fontWeight: 700,
                                                 color: student.streak >= 10 ? '#ef4444' : student.streak >= 5 ? '#F59E0B' : '#64748b',

@@ -175,7 +175,7 @@ export default function SkillPassport({ student, industryRequirements }: Props) 
                         <div>
                             <p style={{ margin: 0, fontSize: 11, color: MUTED }}>Salary</p>
                             <p style={{ margin: '2px 0 0', fontSize: 14, color: GOLD, fontWeight: 700 }}>
-                                ₹{student.salary.toLocaleString('en-IN')}/mo
+                                &#8377;{student.salary.toLocaleString('en-IN')}/mo
                             </p>
                         </div>
                     )}

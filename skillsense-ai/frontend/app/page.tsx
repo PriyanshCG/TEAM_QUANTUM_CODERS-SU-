@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useRef, useState, useEffect } from 'react';
-import IndustryPlans from '../components/IndustryPlans';
-import IndustryModal from '../components/IndustryModal';
+import IndustryPlans from '@/components/IndustryPlans';
+import IndustryModal from '@/components/IndustryModal';
 
 /* ── helpers ── */
 function useInView(ref: React.RefObject<HTMLElement | null>) {
@@ -101,8 +101,7 @@ function Navbar() {
                     ))}
                 </div>
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <Link href="/auth" style={{ color: '#94a3b8', fontSize: 13, fontWeight: 600, textDecoration: 'none', padding: '8px 16px' }}>Sign In</Link>
-                    <Link href="/auth" className="btn-primary" style={{ fontSize: 13 }}>Get Started</Link>
+                    <Link href="/auth" className="btn-primary" style={{ fontSize: 13 }}>Demo Login</Link>
                 </div>
             </div>
         </nav>

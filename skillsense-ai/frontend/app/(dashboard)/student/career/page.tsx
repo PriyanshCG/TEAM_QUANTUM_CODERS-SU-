@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import CareerPathwayCard from '../../../../components/dashboard/CareerPathwayCard';
-import type { CareerPathway } from '../../../../types/charts';
+import CareerPathwayCard from '@/components/dashboard/CareerPathwayCard';
+import { Rocket } from 'lucide-react';
+import type { CareerPathway } from '@/types/charts';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -59,8 +60,8 @@ export default function CareerPage() {
     return (
         <div style={{ color: WHITE, maxWidth: 960 }}>
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    🚀 Career <span style={{ color: GOLD }}>Pathways</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <Rocket size={28} style={{ color: GOLD, marginRight: 10 }} /> Career <span style={{ color: GOLD, marginLeft: 6 }}>Pathways</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     AI-matched career trajectories based on your skill profile

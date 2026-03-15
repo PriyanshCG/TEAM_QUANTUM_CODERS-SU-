@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { sampleStudents } from '../../../../data/sampleStudents';
+import { sampleStudents } from '@/data/sampleStudents';
+import { Briefcase } from 'lucide-react';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
@@ -20,8 +21,8 @@ export default function TalentPage() {
     return (
         <div style={{ color: WHITE, maxWidth: 1100 }}>
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>
-                    👔 Talent <span style={{ color: GOLD }}>Pool</span>
+                <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                    <Briefcase size={28} style={{ color: GOLD, marginRight: 10 }} /> Talent <span style={{ color: GOLD, marginLeft: 6 }}>Pool</span>
                 </h1>
                 <p style={{ margin: '4px 0 0', color: MUTED, fontSize: 14 }}>
                     Browse verified, NSQF-certified candidates

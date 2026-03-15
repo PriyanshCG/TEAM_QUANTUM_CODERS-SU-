@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import SkillPassport from '../../../../components/dashboard/SkillPassport';
-import { sampleStudents } from '../../../../data/sampleStudents';
+import SkillPassport from '@/components/dashboard/SkillPassport';
+import { sampleStudents } from '@/data/sampleStudents';
 
 const GOLD = '#D4A843';
 const MUTED = '#A0A0A0';
