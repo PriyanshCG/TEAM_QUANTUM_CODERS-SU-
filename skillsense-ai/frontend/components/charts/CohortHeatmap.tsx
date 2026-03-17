@@ -38,19 +38,23 @@ export default function CohortHeatmap({ data }: CohortHeatmapProps) {
             {hoveredCell && (
                 <div
                     style={{
-                        background: 'rgba(15,15,25,0.95)',
-                        border: `1px solid ${GOLD}`,
-                        borderRadius: 8,
-                        padding: '8px 12px',
+                        background: 'rgba(10, 10, 20, 0.95)',
+                        border: '1px solid rgba(212, 168, 67, 0.4)',
+                        borderRadius: '10px',
+                        padding: '12px 16px',
+                        backdropFilter: 'blur(12px)',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                         marginBottom: 12,
                         display: 'inline-block',
-                        fontSize: 13,
                     }}
                 >
-                    <span style={{ color: GOLD, fontWeight: 700 }}>{hoveredCell.cohort}</span>
-                    {' — '}
-                    <span style={{ color: WHITE }}>{hoveredCell.skill}:</span>{' '}
-                    <span style={{ color: GOLD, fontWeight: 700 }}>{hoveredCell.score}</span>
+                    <p style={{ color: '#F59E0B', fontWeight: 700, fontSize: '13px', margin: 0 }}>
+                        {hoveredCell.cohort}
+                    </p>
+                    <div style={{ marginTop: '4px', display: 'flex', gap: '8px' }}>
+                        <span style={{ color: '#ffffff', fontSize: '13px' }}>{hoveredCell.skill}:</span>
+                        <span style={{ color: '#F59E0B', fontWeight: 700, fontSize: '13px' }}>{hoveredCell.score}</span>
+                    </div>
                 </div>
             )}
 

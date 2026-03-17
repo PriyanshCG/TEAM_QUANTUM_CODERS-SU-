@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const GOLD = '#D4A843';
 const AMBER = '#F59E0B';
+const GOLD_L = '#F0C05A';
 
 const NAV = [
     {
@@ -27,7 +28,7 @@ const NAV = [
         ],
     },
     {
-        group: 'Institute', accent: '#a78bfa', routes: [
+        group: 'Institute', accent: GOLD_L || '#F0C05A', routes: [
             { label: 'Overview', href: '/institute' },
             { label: 'Students', href: '/institute/students' },
             { label: 'Evaluations', href: '/institute/evaluations' },
@@ -38,7 +39,7 @@ const NAV = [
         ],
     },
     {
-        group: 'Employer', accent: '#06b6d4', routes: [
+        group: 'Employer', accent: AMBER, routes: [
             { label: 'Overview', href: '/employer' },
             { label: 'Feedback', href: '/employer/feedback' },
             { label: 'Skill Validation', href: '/employer/validations' },
@@ -46,7 +47,7 @@ const NAV = [
         ],
     },
     {
-        group: 'Industry', accent: '#34d399', routes: [
+        group: 'Industry', accent: GOLD, routes: [
             { label: 'Overview', href: '/industry' },
             { label: 'Talent Pool', href: '/industry/talent' },
             { label: 'Demand Signals', href: '/industry/demand' },
@@ -64,7 +65,7 @@ const NAV = [
         ],
     },
     {
-        group: 'Admin', accent: '#f87171', routes: [
+        group: 'Admin', accent: AMBER, routes: [
             { label: 'Overview', href: '/admin' },
             { label: 'Users', href: '/admin/users' },
             { label: 'Institutes', href: '/admin/institutes' },
@@ -194,21 +195,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div style={{
                     padding: collapsed ? '18px 0' : '18px 16px',
                     display: 'flex', alignItems: 'center', gap: 10,
-                    borderBottom: '1px solid rgba(212,168,67,0.08)', flexShrink: 0,
+                    borderBottom: '1px solid rgba(245,158,11,0.1)', flexShrink: 0,
                     justifyContent: collapsed ? 'center' : undefined,
                 }}>
-                    <div style={{
-                        width: 30, height: 30, borderRadius: 9, flexShrink: 0,
-                        background: 'linear-gradient(135deg, #D4A843, #F0C05A)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <motion.div 
+                        animate={{ boxShadow: ["0 0 0px #F59E0B00", "0 0 15px #F59E0B44", "0 0 0px #F59E0B00"] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        style={{
+                            width: 32, height: 32, borderRadius: 10, flexShrink: 0,
+                            background: 'linear-gradient(135deg, #F59E0B, #FBBF24)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
                                 stroke="#08060f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                    </div>
+                    </motion.div>
                     {!collapsed && (
-                        <span className="font-display" style={{ fontWeight: 800, fontSize: 14, color: '#fff', whiteSpace: 'nowrap' }}>
+                        <span className="font-display text-gradient-gold" style={{ fontWeight: 900, fontSize: 16, color: '#fff', whiteSpace: 'nowrap', letterSpacing: '-0.02em' }}>
                             SkillSense AI
                         </span>
                     )}
@@ -227,7 +232,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                         width: '100%', display: 'flex', alignItems: 'center', gap: 8,
                                         padding: collapsed ? '8px 0' : '7px 16px',
                                         border: 'none', background: 'transparent', cursor: 'pointer',
-                                        color: isGroupActive ? accent : '#475569',
+                                        color: isGroupActive ? accent : '#94a3b8',
                                         justifyContent: collapsed ? 'center' : 'space-between',
                                         transition: 'color 0.15s',
                                     }}
@@ -254,19 +259,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                     return (
                                         <Link key={route.href} href={route.href} style={{
                                             display: 'flex', alignItems: 'center',
-                                            padding: '6px 16px 6px 28px', textDecoration: 'none',
-                                            background: active ? `${accent}10` : 'transparent',
-                                            borderRight: active ? `2px solid ${accent}` : '2px solid transparent',
-                                            color: active ? accent : '#64748b',
-                                            fontSize: 12, fontWeight: active ? 700 : 500,
-                                            transition: 'all 0.15s', whiteSpace: 'nowrap',
-                                            gap: 6,
+                                            padding: '8px 16px 8px 28px', textDecoration: 'none',
+                                            background: active ? 'rgba(245, 158, 11, 0.1)' : 'transparent',
+                                            borderLeft: active ? `3px solid #F59E0B` : '3px solid transparent',
+                                            color: active ? '#fff' : '#94a3b8',
+                                            fontSize: 13, fontWeight: active ? 700 : 500,
+                                            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)', 
+                                            whiteSpace: 'nowrap',
+                                            gap: 8,
+                                            boxShadow: active ? 'inset 10px 0 20px -10px rgba(245, 158, 11, 0.15)' : 'none'
                                         }}>
-                                            {route.label}
+                                            <motion.span whileHover={{ scale: 1.05, x: 2 }}>
+                                                {route.label}
+                                            </motion.span>
                                             {badge && (
-                                                <span style={{
-                                                    fontSize: 8, fontWeight: 800, padding: '1px 5px', borderRadius: 99,
-                                                    background: 'rgba(34,197,94,0.15)', color: '#22c55e',
+                                                <span className="badge" style={{
+                                                    fontSize: 8, fontWeight: 800, padding: '2px 6px', borderRadius: 99,
+                                                    background: 'rgba(245, 158, 11, 0.15)', color: '#F59E0B',
+                                                    border: '1px solid rgba(245, 158, 11, 0.2)',
                                                     letterSpacing: '0.05em',
                                                 }}>{badge}</span>
                                             )}
@@ -326,7 +336,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     padding: '0 28px', height: 52,
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 }}>
-                    <p style={{ color: '#64748b', fontSize: 12, fontWeight: 500 }}>
+                    <p style={{ color: '#94a3b8', fontSize: 12, fontWeight: 600 }}>
                         {crumb || 'Dashboard'}
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

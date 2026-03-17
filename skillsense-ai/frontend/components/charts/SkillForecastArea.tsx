@@ -18,27 +18,37 @@ interface Props {
     currentMonthIndex?: number; // index where forecast starts
 }
 
-const GOLD = '#D4A843';
-const MUTED = '#A0A0A0';
+const GOLD = '#F59E0B';
+const MUTED = '#94a3b8';
 const WHITE = '#FFFFFF';
+const AMBER = '#FBBF24';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
+    if (active && payload?.length) {
         return (
-            <div
-                style={{
-                    background: 'rgba(15, 15, 25, 0.95)',
-                    border: `1px solid ${GOLD}`,
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                }}
-            >
-                <p style={{ color: GOLD, fontWeight: 700, marginBottom: 6 }}>{label}</p>
-                {payload.map((p: { name: string; value: number; color: string }, i: number) => (
-                    <p key={i} style={{ color: WHITE, fontSize: 13, margin: '2px 0' }}>
-                        {p.name === 'actual' ? 'Actual' : 'Forecast'}:{' '}
-                        <span style={{ color: GOLD, fontWeight: 600 }}>{p.value?.toFixed(1)}%</span>
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '160px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    marginBottom: '6px'
+                }}>{label}</p>
+                {payload.map((p: any, i: number) => (
+                    <p key={i} style={{
+                        color: '#ffffff',
+                        fontSize: '13px',
+                        margin: '2px 0'
+                    }}>
+                        {p.name === 'actual' ? 'Actual' : 'Forecast'}: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{p.value?.toFixed(1)}%</span>
                     </p>
                 ))}
             </div>

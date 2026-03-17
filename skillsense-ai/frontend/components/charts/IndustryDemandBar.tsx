@@ -19,9 +19,11 @@ interface Props {
     showTop?: number;
 }
 
-const GOLD = '#D4A843';
-const MUTED = '#A0A0A0';
+const GOLD = '#F59E0B';
+const MUTED = '#94a3b8';
 const WHITE = '#FFFFFF';
+const AMBER = '#FBBF24';
+const GOLD_GLOW = 'rgba(245, 158, 11, 0.15)';
 
 const GAP_COLORS: Record<string, string> = {
     critical: '#ef4444',
@@ -31,42 +33,53 @@ const GAP_COLORS: Record<string, string> = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
+    if (active && payload?.length) {
         const d = payload[0].payload as IndustryDemandData;
         return (
-            <div
-                style={{
-                    background: 'rgba(15, 15, 25, 0.95)',
-                    border: `1px solid ${GOLD}`,
-                    borderRadius: '8px',
-                    padding: '12px 16px',
-                    minWidth: '220px',
-                }}
-            >
-                <p style={{ color: GOLD, fontWeight: 700, marginBottom: 8 }}>{d.skill}</p>
-                <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    Domain: <span style={{ color: MUTED }}>{d.domain}</span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    Current: <span style={{ color: GOLD }}>{d.currentDemand.toLocaleString('en-IN')}</span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    2026 Forecast:{' '}
-                    <span style={{ color: GOLD }}>{d.projectedDemand2026.toLocaleString('en-IN')}</span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    Growth:{' '}
-                    <span style={{ color: d.growthPercent >= 0 ? '#22c55e' : '#ef4444' }}>
-                        {d.growthPercent >= 0 ? '+' : ''}
-                        {d.growthPercent}%
-                    </span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 12, margin: '3px 0' }}>
-                    Avg Salary: <span style={{ color: GOLD }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
-                </p>
-                <p style={{ fontSize: 11, margin: '6px 0 0', color: GAP_COLORS[d.supplyGap] }}>
-                    Supply Gap: {d.supplyGap.toUpperCase()}
-                </p>
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '220px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '14px',
+                    marginBottom: '8px'
+                }}>{d.skill}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Domain: <span style={{ color: '#94a3b8' }}>{d.domain}</span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Current: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{d.currentDemand.toLocaleString('en-IN')}</span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        2026 Forecast: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{d.projectedDemand2026.toLocaleString('en-IN')}</span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Growth: <span style={{ color: d.growthPercent >= 0 ? '#22c55e' : '#ef4444', fontWeight: 700 }}>
+                            {d.growthPercent >= 0 ? '+' : ''}{d.growthPercent}%
+                        </span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Avg Salary: <span style={{ color: '#F59E0B', fontWeight: 600 }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
+                    </p>
+                    <p style={{ 
+                        fontSize: '12px', 
+                        marginTop: '8px', 
+                        paddingTop: '8px',
+                        borderTop: '1px solid rgba(255,255,255,0.1)',
+                        color: GAP_COLORS[d.supplyGap],
+                        fontWeight: 700
+                    }}>
+                        Supply Gap: {d.supplyGap.toUpperCase()}
+                    </p>
+                </div>
             </div>
         );
     }

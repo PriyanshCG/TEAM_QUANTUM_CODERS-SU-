@@ -57,7 +57,7 @@ const tagColorMap: Record<string, string> = {
     tutorial: '#F59E0B',
 };
 
-const getTagColor = (tag: string): string => tagColorMap[tag] || '#64748b';
+const getTagColor = (tag: string): string => tagColorMap[tag] || '#94a3b8';
 
 /* ─── Component ─── */
 export default function LatestNews({ accent, sectionLabel }: LatestNewsProps) {
@@ -177,7 +177,7 @@ export default function LatestNews({ accent, sectionLabel }: LatestNewsProps) {
                                 borderRadius: '50%', margin: '0 auto 16px',
                                 animation: 'spin 1s linear infinite',
                             }} />
-                            <p style={{ color: '#64748b', fontSize: 13 }}>Fetching latest articles...</p>
+                            <p style={{ color: '#94a3b8', fontSize: 13 }}>Fetching latest articles...</p>
                         </div>
                     </div>
                     <div style={{ padding: '24px 28px' }}>
@@ -367,10 +367,10 @@ export default function LatestNews({ accent, sectionLabel }: LatestNewsProps) {
                                 />
                                 <div>
                                     <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{article.user.name}</div>
-                                    <div style={{ fontSize: 11, color: '#64748b' }}>@{article.user.username}</div>
+                                    <div style={{ fontSize: 11, color: '#94a3b8' }}>@{article.user.username}</div>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: 14, fontSize: 12, color: '#64748b' }}>
+                            <div style={{ display: 'flex', gap: 14, fontSize: 12, color: '#94a3b8' }}>
                                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
                                     {article.positive_reactions_count}
@@ -441,7 +441,7 @@ export default function LatestNews({ accent, sectionLabel }: LatestNewsProps) {
                             height: 8,
                             borderRadius: 99,
                             border: 'none',
-                            background: currentIndex === idx ? accent : 'rgba(212,168,67,0.15)',
+                            background: currentIndex === idx ? accent : 'rgba(212,168,67,0.3)',
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
                             padding: 0,

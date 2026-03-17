@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import confetti from 'canvas-confetti';
 import { Download, Share2 } from 'lucide-react';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
+import { FadeIn } from '@/components/shared/FadeIn';
 
 // Dynamic imports for top-level heavy chart containers
 const RadarChart = dynamic(() => import('recharts').then(mod => mod.RadarChart), { ssr: false });
@@ -20,8 +21,8 @@ const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.Res
 const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
 
 const S = sampleStudents[0];
-const GOLD = '#D4A843';
-const GOLD_L = '#F0C05A';
+const GOLD = '#F59E0B';
+const GOLD_L = '#FBBF24';
 const AMBER = '#F59E0B';
 const ORANGE = '#F97316';
 
@@ -68,15 +69,36 @@ interface CustomTooltipProps {
 }
 
 const Tip = ({ active, payload, label }: CustomTooltipProps) => {
-    if (!active || !payload?.length) return null;
-    return (
-        <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>
-            <p style={{ color: '#94a3b8', marginBottom: 4 }}>{label}</p>
-            {payload.map((p: any, i: number) => (
-                <p key={i} style={{ color: GOLD, fontWeight: 700 }}>{p.value}</p>
-            ))}
-        </div>
-    );
+    if (active && payload?.length) {
+        return (
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '160px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    marginBottom: '6px'
+                }}>{label}</p>
+                {payload.map((entry: any, i: number) => (
+                    <p key={i} style={{
+                        color: '#ffffff',
+                        fontSize: '13px',
+                        margin: '2px 0'
+                    }}>
+                        {entry.name}: {entry.value}
+                    </p>
+                ))}
+            </div>
+        );
+    }
+    return null;
 };
 
 export default function StudentPage() {
@@ -109,13 +131,13 @@ export default function StudentPage() {
 
     return (
         <ErrorBoundary>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <FadeIn style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                    <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>
+                    <h1 className="font-display text-gradient-gold" style={{ fontSize: 32, fontWeight: 900 }}>
                         Student Dashboard
                     </h1>
-                    <p style={{ color: '#64748b', fontSize: 14, marginTop: 4 }}>
+                    <p style={{ color: '#64748b', fontSize: 14, marginTop: 4, fontWeight: 500 }}>
                         Welcome back, {userName}
                     </p>
                 </div>
@@ -126,11 +148,11 @@ export default function StudentPage() {
             <div style={{ display: 'flex', gap: 6, marginBottom: 28, overflowX: 'auto', paddingBottom: 2 }}>
                 {TABS.map(t => (
                     <button key={t.key} onClick={() => setActive(t.key)} style={{
-                        padding: '7px 16px', borderRadius: 9,
-                        border: `1px solid ${active === t.key ? 'rgba(212,168,67,0.38)' : 'transparent'}`,
-                        background: active === t.key ? 'rgba(212,168,67,0.1)' : 'transparent',
+                        padding: '8px 20px', borderRadius: 10,
+                        border: `1px solid ${active === t.key ? GOLD : 'rgba(255,255,255,0.05)'}`,
+                        background: active === t.key ? 'rgba(245, 158, 11, 0.1)' : 'rgba(255,255,255,0.02)',
                         color: active === t.key ? GOLD : '#64748b',
-                        fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap',
+                        fontSize: 13, fontWeight: active === t.key ? 800 : 500, cursor: 'pointer', whiteSpace: 'nowrap',
                         fontFamily: 'Space Grotesk, sans-serif', transition: 'all 0.2s',
                     }}>
                         {t.label}
@@ -153,12 +175,7 @@ export default function StudentPage() {
                                 { label: 'Skills Assessed', value: `${S.skills.length}`, color: AMBER },
                                 { label: 'NSQF Level', value: `Level ${S.nsqfLevel}`, color: ORANGE },
                             ].map((stat, i) => (
-                                <motion.div 
-                                    key={i} 
-                                    className="stat-card"
-                                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(212, 168, 67, 0.08)' }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
+                                <div key={i} className="stat-card glass" style={{ borderTop: `2px solid ${stat.color}40` }}>
                                     {loading ? (
                                         <>
                                             <Skeleton width={32} height={20} style={{ marginBottom: 12 }} />
@@ -167,32 +184,11 @@ export default function StudentPage() {
                                         </>
                                     ) : (
                                         <>
-                                            <div style={{ width: 4, height: 28, borderRadius: 2, background: stat.color, marginBottom: 14 }} />
-                                            <div className="font-display" style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{stat.value}</div>
-                                            <div style={{ fontSize: 12, color: '#64748b', marginTop: 5 }}>{stat.label}</div>
-                                        <div style={{ display: 'flex', gap: 10 }}>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => downloadPageAsPDF('student-report')}
-                                    className="btn-primary"
-                                    style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-                                >
-                                    <Download size={16} />
-                                    Export Report
-                                </motion.button>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="btn-ghost"
-                                    style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px' }}
-                                >
-                                    <Share2 size={16} />
-                                </motion.button>
-                            </div>
+                                            <div className="font-display text-gradient-gold" style={{ fontSize: 26, fontWeight: 900 }}>{stat.value}</div>
+                                            <div style={{ fontSize: 11, color: '#64748b', marginTop: 5, fontWeight: 700, textTransform: 'uppercase' }}>{stat.label}</div>
                                         </>
                                     )}
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
 
@@ -423,9 +419,9 @@ export default function StudentPage() {
                     ))}
                 </div>
             )}
-                </div>
-            </ErrorBoundary>
-        );
+            </FadeIn>
+        </ErrorBoundary>
+    );
 }
 
 function AIAnalyzerTab({ program }: { program: string }) {

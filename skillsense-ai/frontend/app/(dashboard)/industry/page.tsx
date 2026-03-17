@@ -5,9 +5,10 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { sampleIndustryDemand } from '@/data/sampleIndustryDemand';
+import { FadeIn } from '@/components/shared/FadeIn';
 
-const GOLD = '#D4A843';
-const GOLD_L = '#F0C05A';
+const GOLD = '#F59E0B';
+const GOLD_L = '#FBBF24';
 const AMBER = '#F59E0B';
 
 interface CustomTooltipProps {
@@ -17,15 +18,36 @@ interface CustomTooltipProps {
 }
 
 const Tip = ({ active, payload, label }: CustomTooltipProps) => {
-    if (!active || !payload?.length) return null;
-    return (
-        <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>
-            <p style={{ color: '#94a3b8', marginBottom: 4 }}>{label}</p>
-            {payload.map((p: any, i: number) => (
-                <p key={i} style={{ color: GOLD, fontWeight: 700 }}>{p.name}: {typeof p.value === 'number' ? p.value.toLocaleString() : p.value}</p>
-            ))}
-        </div>
-    );
+    if (active && payload?.length) {
+        return (
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '160px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    marginBottom: '6px'
+                }}>{label}</p>
+                {payload.map((entry: any, i: number) => (
+                    <p key={i} style={{
+                        color: '#ffffff',
+                        fontSize: '13px',
+                        margin: '2px 0'
+                    }}>
+                        {entry.name}: {entry.value}
+                    </p>
+                ))}
+            </div>
+        );
+    }
+    return null;
 };
 
 const critical = sampleIndustryDemand.filter(d => d.supplyGap === 'critical');
@@ -41,12 +63,12 @@ const gapColor: Record<string, string> = { critical: '#ef4444', moderate: AMBER,
 
 export default function IndustryOverviewPage() {
     return (
-        <div>
+        <FadeIn>
             <div style={{ marginBottom: 24 }}>
-                <h1 className="font-display" style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>
-                    Industry <span style={{ color: GOLD }}>Intelligence</span>
+                <h1 className="font-display text-gradient-gold" style={{ fontSize: 32, fontWeight: 900 }}>
+                    Industry Intelligence
                 </h1>
-                <p style={{ color: '#64748b', fontSize: 14, marginTop: 4 }}>Skill demand signals, talent pipeline and hiring analytics</p>
+                <p style={{ color: '#64748b', fontSize: 14, marginTop: 4, fontWeight: 500 }}>Skill demand signals, talent pipeline and hiring analytics</p>
             </div>
 
             {/* KPI row */}
@@ -57,97 +79,97 @@ export default function IndustryOverviewPage() {
                     { label: 'Tracked Domains', value: `${sampleIndustryDemand.length}`, color: AMBER, sub: 'Across sectors' },
                     { label: 'Avg Salary', value: `Rs. ${avgSalary.toLocaleString()}`, color: '#22c55e', sub: '+7% growth' },
                 ].map((stat, i) => (
-                    <div key={i} className="stat-card">
-                        <div style={{ width: 4, height: 28, borderRadius: 2, background: stat.color, marginBottom: 14 }} />
-                        <div className="font-display" style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{stat.value}</div>
-                        <div style={{ fontSize: 12, color: '#64748b', marginTop: 5 }}>{stat.label}</div>
-                        <div style={{ fontSize: 11, color: '#475569', marginTop: 4 }}>{stat.sub}</div>
+                    <div key={i} className="stat-card glass" style={{ borderTop: `2px solid ${stat.color}40` }}>
+                        <div className="font-display text-gradient-gold" style={{ fontSize: 26, fontWeight: 900 }}>{stat.value}</div>
+                        <div style={{ fontSize: 11, color: '#64748b', marginTop: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</div>
+                        <div style={{ fontSize: 11, color: stat.sub.includes('+') ? '#22c55e' : '#64748b', marginTop: 4, fontWeight: 600 }}>{stat.sub}</div>
                     </div>
                 ))}
             </div>
 
             {/* Demand bar chart */}
-            <div className="stat-card" style={{ marginBottom: 20 }}>
+            <div className="stat-card glass" style={{ marginBottom: 20 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
                     <div style={{ width: 4, height: 18, borderRadius: 2, background: GOLD }} />
-                    <h3 className="font-display" style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Current Skill Demand — Top 10</h3>
+                    <h3 className="font-display" style={{ fontSize: 14, fontWeight: 800, color: '#fff' }}>Current Skill Demand — Top 10</h3>
                 </div>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={top10} layout="vertical" barSize={14}>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(212,168,67,0.07)" horizontal={false} />
                         <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
                         <YAxis dataKey="skill" type="category" tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} width={130} />
-                        <Tooltip content={<Tip />} />
+                        <Tooltip content={<Tip />} cursor={{ fill: 'rgba(245, 158, 11, 0.05)' }} />
                         <Bar dataKey="demand" radius={[0, 4, 4, 0]} fill={GOLD} fillOpacity={0.85} name="Demand (K)" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
 
             {/* Supply gap table */}
-            <div className="stat-card" style={{ marginBottom: 20 }}>
+            <div className="stat-card glass" style={{ marginBottom: 20 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
                     <div style={{ width: 4, height: 18, borderRadius: 2, background: AMBER }} />
-                    <h3 className="font-display" style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Skill Supply Gap Overview</h3>
+                    <h3 className="font-display" style={{ fontSize: 14, fontWeight: 800, color: '#fff' }}>Skill Supply Gap Overview</h3>
                 </div>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                        <tr style={{ borderBottom: '1px solid rgba(212,168,67,0.1)' }}>
-                            {['Skill', 'Domain', 'Demand Now', '2026 Projected', 'Growth', 'Gap Status'].map(h => (
-                                <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#64748b', padding: '8px 16px 8px 0' }}>{h}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sampleIndustryDemand.slice(0, 8).map((d, i) => (
-                            <tr key={i} style={{ borderBottom: '1px solid rgba(212,168,67,0.05)', transition: 'background 0.15s' }}
-                                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.03)')}
-                                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}>
-                                <td style={{ padding: '12px 16px 12px 0', fontSize: 13, fontWeight: 600, color: '#fff' }}>{d.skill}</td>
-                                <td style={{ padding: '12px 16px 12px 0', fontSize: 13, color: '#64748b' }}>{d.domain}</td>
-                                <td style={{ padding: '12px 16px 12px 0', fontSize: 13, color: '#94a3b8' }}>{(d.currentDemand / 1000).toFixed(0)}K</td>
-                                <td style={{ padding: '12px 16px 12px 0', fontSize: 13, color: '#94a3b8' }}>{(d.projectedDemand2026 / 1000).toFixed(0)}K</td>
-                                <td style={{ padding: '12px 16px 12px 0' }}>
-                                    <span className="font-display" style={{ fontSize: 13, fontWeight: 700, color: d.growthPercent >= 0 ? '#22c55e' : '#ef4444' }}>
-                                        {d.growthPercent >= 0 ? '+' : ''}{d.growthPercent}%
-                                    </span>
-                                </td>
-                                <td style={{ padding: '12px 16px 12px 0' }}>
-                                    <span style={{
-                                        fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 99,
-                                        background: `${gapColor[d.supplyGap]}14`,
-                                        color: gapColor[d.supplyGap],
-                                    }}>{d.supplyGap.charAt(0).toUpperCase() + d.supplyGap.slice(1)}</span>
-                                </td>
+                <div style={{ overflow: 'hidden', borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            <tr style={{ background: 'rgba(245, 158, 11, 0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                                {['Skill', 'Domain', 'Demand Now', '2026 Projected', 'Growth', 'Gap Status'].map(h => (
+                                    <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#64748b', padding: '12px 16px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
+                                ))}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sampleIndustryDemand.slice(0, 8).map((d, i) => (
+                                <tr key={i} className="table-row-hover" style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
+                                    <td style={{ padding: '12px 16px', fontSize: 13, fontWeight: 700, color: '#fff' }}>{d.skill}</td>
+                                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#94a3b8', fontWeight: 500 }}>{d.domain}</td>
+                                    <td style={{ padding: '12px 16px', fontSize: 13, color: GOLD, fontWeight: 700 }}>{(d.currentDemand / 1000).toFixed(0)}K</td>
+                                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#94a3b8' }}>{(d.projectedDemand2026 / 1000).toFixed(0)}K</td>
+                                    <td style={{ padding: '12px 16px' }}>
+                                        <span className="font-display" style={{ fontSize: 13, fontWeight: 800, color: d.growthPercent >= 0 ? '#22c55e' : '#ef4444' }}>
+                                            {d.growthPercent >= 0 ? '+' : ''}{d.growthPercent}%
+                                        </span>
+                                    </td>
+                                    <td style={{ padding: '12px 16px' }}>
+                                        <span className="badge" style={{
+                                            background: `${gapColor[d.supplyGap]}14`,
+                                            border: `1px solid ${gapColor[d.supplyGap]}30`,
+                                            color: gapColor[d.supplyGap],
+                                            textTransform: 'capitalize'
+                                        }}>{d.supplyGap}</span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* Critical gap alerts */}
-            <div className="stat-card">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <div className="stat-card glass">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
                     <div style={{ width: 4, height: 18, borderRadius: 2, background: '#ef4444' }} />
-                    <h3 className="font-display" style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Critical Supply Gaps</h3>
+                    <h3 className="font-display" style={{ fontSize: 14, fontWeight: 800, color: '#fff' }}>Critical Supply Gaps</h3>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 }}>
                     {critical.map(d => (
-                        <div key={d.skill} className="glass" style={{ padding: '14px 16px', borderRadius: 10, borderColor: 'rgba(239,68,68,0.2)' }}>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{d.skill}</div>
-                            <div style={{ fontSize: 12, color: '#64748b' }}>{d.domain}</div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-                                <span className="font-display" style={{ fontSize: 15, fontWeight: 800, color: '#ef4444' }}>+{d.growthPercent}%</span>
-                                <span style={{ fontSize: 11, color: '#64748b' }}>Rs. {d.avgSalary.toLocaleString()}/mo</span>
+                        <div key={d.skill} className="glass-bright" style={{ padding: '18px', borderRadius: 16, border: '1px solid rgba(239,68,68,0.2)' }}>
+                            <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', marginBottom: 4 }}>{d.skill}</div>
+                            <div style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{d.domain}</div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 12 }}>
+                                <span className="font-display" style={{ fontSize: 20, fontWeight: 900, color: '#ef4444' }}>+{d.growthPercent}%</span>
+                                <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>Rs. {d.avgSalary.toLocaleString()}/mo</span>
                             </div>
-                            <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                                 {d.topHiringCompanies.slice(0, 2).map(c => (
-                                    <span key={c} style={{ fontSize: 10, color: '#475569', background: 'rgba(212,168,67,0.08)', padding: '2px 8px', borderRadius: 99 }}>{c}</span>
+                                    <span key={c} className="badge" style={{ fontSize: 10, background: 'rgba(255,255,255,0.03)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)' }}>{c}</span>
                                 ))}
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
+        </FadeIn>
     );
 }

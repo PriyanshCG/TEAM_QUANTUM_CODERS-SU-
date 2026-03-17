@@ -125,32 +125,43 @@ export default function RegionHeatmap({ data }: RegionHeatmapProps) {
                                 position: 'absolute',
                                 bottom: 16,
                                 left: 16,
-                                background: 'rgba(15,15,25,0.97)',
-                                border: `1px solid ${GOLD}`,
-                                borderRadius: 10,
-                                padding: '10px 14px',
+                                background: 'rgba(10, 10, 20, 0.95)',
+                                border: '1px solid rgba(212, 168, 67, 0.4)',
+                                borderRadius: '10px',
+                                padding: '12px 16px',
+                                backdropFilter: 'blur(12px)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                                 minWidth: 200,
                                 zIndex: 10,
                                 pointerEvents: 'none',
                             }}
                         >
-                            <p style={{ color: GOLD, fontWeight: 700, marginBottom: 6 }}>
+                            <p style={{ color: '#F59E0B', fontWeight: 700, fontSize: '14px', marginBottom: '8px' }}>
                                 {tooltip.state}
                             </p>
-                            <p style={{ color: WHITE, fontSize: 12, margin: '2px 0' }}>
-                                Skill Score: <span style={{ color: GOLD }}>{tooltip.skillScore}</span>
-                            </p>
-                            <p style={{ color: WHITE, fontSize: 12, margin: '2px 0' }}>
-                                Placement Rate: <span style={{ color: GOLD }}>{tooltip.placementRate}%</span>
-                            </p>
-                            <p style={{ color: WHITE, fontSize: 12, margin: '2px 0' }}>
-                                Students: <span style={{ color: GOLD }}>{tooltip.studentCount.toLocaleString('en-IN')}</span>
-                            </p>
-                            {tooltip.criticalGaps.length > 0 && (
-                                <p style={{ color: '#ef4444', fontSize: 11, marginTop: 6 }}>
-                                    ⚑ {tooltip.criticalGaps.join(', ')}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                                    Skill Score: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{tooltip.skillScore}</span>
                                 </p>
-                            )}
+                                <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                                    Placement Rate: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{tooltip.placementRate}%</span>
+                                </p>
+                                <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                                    Students: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{tooltip.studentCount.toLocaleString('en-IN')}</span>
+                                </p>
+                                {tooltip.criticalGaps.length > 0 && (
+                                    <p style={{ 
+                                        color: '#ef4444', 
+                                        fontSize: '12px', 
+                                        marginTop: '8px',
+                                        paddingTop: '8px',
+                                        borderTop: '1px solid rgba(255,255,255,0.1)',
+                                        fontWeight: 600 
+                                    }}>
+                                        ⚑ {tooltip.criticalGaps.join(', ')}
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>

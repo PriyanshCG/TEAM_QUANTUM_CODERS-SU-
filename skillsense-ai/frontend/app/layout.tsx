@@ -21,7 +21,7 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body style={{ background: '#050a14' }}>
+            <body>
                 <SplashScreen>{children}</SplashScreen>
             </body>
         </html>

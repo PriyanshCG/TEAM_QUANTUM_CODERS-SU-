@@ -6,25 +6,7 @@ import IndustryPlans from '@/components/IndustryPlans';
 import IndustryModal from '@/components/IndustryModal';
 
 /* ── helpers ── */
-function useInView(ref: React.RefObject<HTMLElement | null>) {
-    const [inView, setInView] = useState(false);
-    useEffect(() => {
-        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { rootMargin: '-80px' });
-        if (ref.current) obs.observe(ref.current);
-        return () => obs.disconnect();
-    }, [ref]);
-    return inView;
-}
-
-function FadeIn({ children, delay = 0, style = {} }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
-    const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref);
-    return (
-        <div ref={ref} style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(28px)', transition: `opacity 0.6s ${delay}s ease, transform 0.6s ${delay}s ease`, ...style }}>
-            {children}
-        </div>
-    );
-}
+import { FadeIn } from '@/components/shared/FadeIn';
 
 const GOLD = '#D4A843';
 const GOLD_L = '#F0C05A';
@@ -43,9 +25,9 @@ const FEATURES = [
     { title: 'AI Skill Analyzer', desc: 'Deep analysis of resumes, GitHub repos, and projects using advanced AI to extract real competencies across 50+ dimensions.', color: GOLD },
     { title: 'Skill Score Dashboard', desc: 'Multi-dimensional scoring across technical, soft, and domain-specific competencies with personal growth tracking.', color: GOLD_L },
     { title: 'Gap Analysis Engine', desc: 'Identifies missing skills for target roles and generates personalized upskilling roadmaps with timelines.', color: AMBER },
-    { title: 'Career Prediction', desc: 'Predicts best-fit career paths with salary benchmarks and growth forecasts tailored to India\'s job market.', color: ORANGE },
-    { title: 'Skill Passport', desc: 'Tamper-proof SHA-256 verifiable digital credential that travels with students throughout their career journey.', color: GOLD },
-    { title: 'Fairness Engine', desc: 'Algorithmic equity monitoring with disparate impact ratios, gender/region parity scores, and correction recommendations.', color: '#a78bfa' },
+    { title: 'Career Prediction', desc: 'Predicts best-fit career paths with salary benchmarks and growth forecasts tailored to India\'s job market.', color: GOLD },
+    { title: 'Skill Passport', desc: 'Tamper-proof SHA-256 verifiable digital credential that travels with students throughout their career journey.', color: GOLD_L },
+    { title: 'Fairness Engine', desc: 'Algorithmic equity monitoring with disparate impact ratios, gender/region parity scores, and correction recommendations.', color: AMBER },
 ];
 
 const STEPS = [
@@ -57,16 +39,16 @@ const STEPS = [
 
 const IMPACTS = [
     { role: 'Students', color: GOLD, bg: 'rgba(212,168,67,0.05)', border: 'rgba(212,168,67,0.18)', points: ['Know your real skill level', 'Get personalised career roadmaps', 'Portable verified Skill Passport', 'AI-powered job matching'] },
-    { role: 'Institutes', color: '#a78bfa', bg: 'rgba(167,139,250,0.05)', border: 'rgba(167,139,250,0.18)', points: ['Track student outcomes at scale', 'Identify curriculum gaps', 'Boost placement rates', 'Prove program ROI to stakeholders'] },
-    { role: 'Industry', color: '#34d399', bg: 'rgba(52,211,153,0.05)', border: 'rgba(52,211,153,0.18)', points: ['Access verified skill pools', 'AI-powered candidate matching', 'Forecast talent supply gaps', 'Reduce hiring time by 60%'] },
-    { role: 'Government', color: AMBER, bg: 'rgba(245,158,11,0.05)', border: 'rgba(245,158,11,0.18)', points: ['National skill intelligence', 'Policy impact measurement', 'Fairness & equity monitoring', 'Workforce demand forecasting'] },
+    { role: 'Institutes', color: GOLD_L, bg: 'rgba(240,192,90,0.05)', border: 'rgba(240,192,90,0.18)', points: ['Track student outcomes at scale', 'Identify curriculum gaps', 'Boost placement rates', 'Prove program ROI to stakeholders'] },
+    { role: 'Industry', color: AMBER, bg: 'rgba(245,158,11,0.05)', border: 'rgba(245,158,11,0.18)', points: ['Access verified skill pools', 'AI-powered candidate matching', 'Forecast talent supply gaps', 'Reduce hiring time by 60%'] },
+    { role: 'Government', color: GOLD, bg: 'rgba(212,168,67,0.06)', border: 'rgba(212,168,67,0.2)', points: ['National skill intelligence', 'Policy impact measurement', 'Fairness & equity monitoring', 'Workforce demand forecasting'] },
 ];
 
 const DASHBOARDS = [
     { label: 'Student Dashboard', href: '/student', desc: 'Skill passport, AI analysis, career paths', color: GOLD },
-    { label: 'Institute Dashboard', href: '/institute', desc: 'Analytics, placement trends, curriculum gaps', color: '#a78bfa' },
-    { label: 'Industry Dashboard', href: '/industry', desc: 'Talent pool, skill matching, market trends', color: '#34d399' },
-    { label: 'Government Dashboard', href: '/government', desc: 'National insights, workforce forecasting', color: AMBER },
+    { label: 'Institute Dashboard', href: '/institute', desc: 'Analytics, placement trends, curriculum gaps', color: GOLD_L },
+    { label: 'Industry Dashboard', href: '/industry', desc: 'Talent pool, skill matching, market trends', color: AMBER },
+    { label: 'Government Dashboard', href: '/government', desc: 'National insights, workforce forecasting', color: GOLD },
 ];
 
 /* ── Navbar ── */
@@ -125,33 +107,35 @@ export default function LandingPage() {
             {/* Hero */}
             <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 24px 0', position: 'relative' }}>
                 <div style={{ position: 'absolute', top: '25%', left: '20%', width: 400, height: 400, background: 'rgba(212,168,67,0.05)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
-                <div style={{ position: 'absolute', bottom: '20%', right: '15%', width: 350, height: 350, background: 'rgba(249,115,22,0.04)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', bottom: '20%', right: '15%', width: 350, height: 350, background: 'rgba(212,168,67,0.04)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
                 <div style={{ textAlign: 'center', maxWidth: 800, position: 'relative', zIndex: 1 }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 99, padding: '6px 16px', marginBottom: 32 }}>
                         <span style={{ width: 6, height: 6, borderRadius: '50%', background: GOLD, animation: 'pulse-slow 2s infinite' }} />
                         <span style={{ fontSize: 12, fontWeight: 600, color: GOLD }}>AI-Powered Skill Intelligence Platform</span>
                     </div>
-                    <h1 className="font-display" style={{ fontSize: 'clamp(40px, 7vw, 72px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 20 }}>
+                    <h1 className="font-display text-gradient-gold" style={{ fontSize: 'clamp(40px, 7vw, 76px)', fontWeight: 900, color: '#fff', lineHeight: 1.05, marginBottom: 24, letterSpacing: '-0.04em' }}>
                         Measuring Skills,<br />
-                        <span className="gradient-text">Predicting Futures</span>
+                        Predicting Futures
                     </h1>
-                    <p style={{ fontSize: 18, color: '#64748b', maxWidth: 580, margin: '0 auto 36px', lineHeight: 1.7 }}>
+                    <p style={{ fontSize: 19, color: '#94a3b8', maxWidth: 620, margin: '0 auto 40px', lineHeight: 1.8, letterSpacing: '0.01em' }}>
                         SkillSense AI goes beyond certificates to measure real-world competencies, predict employability, and provide intelligence to institutions, industry, and government.
                     </p>
                     <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 60 }}>
-                        <Link href="/auth" className="btn-primary" style={{ fontSize: 15, padding: '12px 28px' }}>
+                        <Link href="/auth" className="btn-primary btn-shimmer" style={{ fontSize: 15, padding: '12px 28px' }}>
                             Start Free Assessment
                         </Link>
                         <Link href="/student" className="btn-ghost" style={{ fontSize: 15, padding: '12px 28px' }}>
                             View Demo Dashboard
                         </Link>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, maxWidth: 600, margin: '0 auto' }}>
-                        {STATS.map(s => (
-                            <div key={s.label} className="glass" style={{ padding: '16px 12px', borderRadius: 12, textAlign: 'center' }}>
-                                <div className="font-display gradient-text" style={{ fontSize: 22, fontWeight: 800 }}>{s.value}</div>
-                                <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>{s.label}</div>
-                            </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, maxWidth: 700, margin: '0 auto' }}>
+                        {STATS.map((s, i) => (
+                            <FadeIn key={s.label} delay={0.4 + i * 0.1}>
+                                <div className="glass gradient-border-gold" style={{ padding: '20px 14px', borderRadius: 16, textAlign: 'center' }}>
+                                    <div className="font-display text-gradient-gold" style={{ fontSize: 26, fontWeight: 900, filter: 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.3))' }}>{s.value}</div>
+                                    <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 6, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
+                                </div>
+                            </FadeIn>
                         ))}
                     </div>
                 </div>
@@ -161,19 +145,19 @@ export default function LandingPage() {
             <section style={{ padding: '100px 24px' }} id="features">
                 <div style={{ maxWidth: 1100, margin: '0 auto' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#ef4444', textTransform: 'uppercase', letterSpacing: '0.05em' }}>The Problem</span>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: GOLD, textTransform: 'uppercase', letterSpacing: '0.05em' }}>The Problem</span>
                         </div>
-                        <h2 className="font-display" style={{ fontSize: 40, fontWeight: 800, color: '#fff', marginBottom: 14 }}>
-                            Certificates Don&apos;t Tell the <span className="gradient-text">Whole Story</span>
+                        <h2 className="font-display text-gradient-gold" style={{ fontSize: 40, fontWeight: 900, color: '#fff', marginBottom: 14 }}>
+                            Certificates Don&apos;t Tell the Whole Story
                         </h2>
                         <p style={{ color: '#64748b', fontSize: 16, maxWidth: 520, margin: '0 auto' }}>The global skills gap costs economies $8.5 trillion annually. Traditional credentials fail to capture real competencies employers need.</p>
                     </FadeIn>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginBottom: 80 }}>
                         {[
-                            { stat: '68%', desc: 'of graduates are underemployed despite having degrees', color: '#ef4444' },
-                            { stat: '82%', desc: 'of employers say certificates don\'t reflect actual job readiness', color: AMBER },
-                            { stat: '$8.5T', desc: 'annual economic loss from the global skills mismatch crisis', color: ORANGE },
+                            { stat: '68%', desc: 'of graduates are underemployed despite having degrees', color: AMBER },
+                            { stat: '82%', desc: 'of employers say certificates don\'t reflect actual job readiness', color: GOLD },
+                            { stat: '$8.5T', desc: 'annual economic loss from the global skills mismatch crisis', color: GOLD_L },
                         ].map((item, i) => (
                             <FadeIn key={i} delay={i * 0.1}>
                                 <div className="stat-card" style={{ textAlign: 'center' }}>
@@ -189,8 +173,8 @@ export default function LandingPage() {
                         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(212,168,67,0.08)', border: `1px solid rgba(212,168,67,0.2)`, borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
                             <span style={{ fontSize: 11, fontWeight: 700, color: GOLD, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Platform Features</span>
                         </div>
-                        <h2 className="font-display" style={{ fontSize: 40, fontWeight: 800, color: '#fff' }}>
-                            Everything You Need to <span className="gradient-text">Measure What Matters</span>
+                        <h2 className="font-display text-gradient-gold" style={{ fontSize: 40, fontWeight: 900, color: '#fff' }}>
+                            Everything You Need to Measure What Matters
                         </h2>
                     </FadeIn>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
@@ -211,18 +195,24 @@ export default function LandingPage() {
             <section style={{ padding: '100px 24px', background: 'rgba(212,168,67,0.015)' }} id="how-it-works">
                 <div style={{ maxWidth: 1100, margin: '0 auto' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.05em' }}>How It Works</span>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: AMBER, textTransform: 'uppercase', letterSpacing: '0.05em' }}>How It Works</span>
                         </div>
-                        <h2 className="font-display" style={{ fontSize: 40, fontWeight: 800, color: '#fff' }}>
-                            From Raw Data to <span className="gradient-text">Actionable Intelligence</span>
+                        <h2 className="font-display text-gradient-gold" style={{ fontSize: 40, fontWeight: 900, color: '#fff' }}>
+                            From Raw Data to Actionable Intelligence
                         </h2>
                     </FadeIn>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
                         {STEPS.map((step, i) => (
                             <FadeIn key={i} delay={i * 0.1}>
                                 <div className="stat-card" style={{ textAlign: 'center' }}>
-                                    <div className="font-display" style={{ fontSize: 40, fontWeight: 800, color: 'rgba(212,168,67,0.15)', marginBottom: 14 }}>{step.num}</div>
+                                    <div className="font-display" style={{ 
+                                        fontSize: 40, 
+                                        fontWeight: 800, 
+                                        color: 'rgba(212,168,67,0.55)', 
+                                        marginBottom: 14,
+                                        textShadow: '0 0 40px rgba(212,168,67,0.3)'
+                                    }}>{step.num}</div>
                                     <h3 className="font-display" style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{step.title}</h3>
                                     <p style={{ color: '#64748b', fontSize: 12, lineHeight: 1.6 }}>{step.desc}</p>
                                 </div>
@@ -260,7 +250,7 @@ export default function LandingPage() {
                         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 99, padding: '5px 14px', marginBottom: 20 }}>
                             <span style={{ fontSize: 11, fontWeight: 700, color: AMBER, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Impact</span>
                         </div>
-                        <h2 className="font-display" style={{ fontSize: 40, fontWeight: 800, color: '#fff' }}>Built for Every <span className="gradient-text">Stakeholder</span></h2>
+                        <h2 className="font-display text-gradient-gold" style={{ fontSize: 40, fontWeight: 900, color: '#fff' }}>Built for Every Stakeholder</h2>
                         <p style={{ color: '#64748b', fontSize: 16, marginTop: 12 }}>SkillSense AI creates value across the entire education-to-employment ecosystem.</p>
                     </FadeIn>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))', gap: 18 }}>
@@ -296,8 +286,8 @@ export default function LandingPage() {
             <section style={{ padding: '100px 24px', background: 'rgba(212,168,67,0.015)' }} id="dashboards">
                 <div style={{ maxWidth: 1100, margin: '0 auto' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 48 }}>
-                        <h2 className="font-display" style={{ fontSize: 40, fontWeight: 800, color: '#fff', marginBottom: 12 }}>
-                            Explore the <span className="gradient-text">Dashboards</span>
+                        <h2 className="font-display text-gradient-gold" style={{ fontSize: 40, fontWeight: 900, color: '#fff', marginBottom: 12 }}>
+                            Explore the Dashboards
                         </h2>
                         <p style={{ color: '#64748b', fontSize: 16 }}>Role-specific analytics for every stakeholder in the ecosystem.</p>
                     </FadeIn>
@@ -305,11 +295,27 @@ export default function LandingPage() {
                         {DASHBOARDS.map((d, i) => (
                             <FadeIn key={i} delay={i * 0.09}>
                                 <Link href={d.href} style={{ display: 'block', textDecoration: 'none' }}>
-                                    <div className="stat-card" style={{ cursor: 'pointer' }}>
-                                        <div style={{ width: 4, height: 28, borderRadius: 2, background: d.color, marginBottom: 14 }} />
-                                        <h3 className="font-display" style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{d.label}</h3>
-                                        <p style={{ color: '#64748b', fontSize: 12, marginBottom: 16 }}>{d.desc}</p>
-                                        <div style={{ fontSize: 12, fontWeight: 600, color: d.color, display: 'flex', alignItems: 'center', gap: 4 }}>Explore →</div>
+                                    <div className="stat-card" style={{ 
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        alignItems: 'flex-start',
+                                        gap: '12px'
+                                    }}>
+                                        <div style={{ 
+                                            width: '3px', 
+                                            height: 'auto', 
+                                            minHeight: '40px',
+                                            alignSelf: 'stretch',
+                                            borderRadius: 2, 
+                                            background: d.color, 
+                                            flexShrink: 0 
+                                        }} />
+                                        <div>
+                                            <h3 className="font-display" style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{d.label}</h3>
+                                            <p style={{ color: '#64748b', fontSize: 12, marginBottom: 16 }}>{d.desc}</p>
+                                            <div style={{ fontSize: 12, fontWeight: 600, color: d.color, display: 'flex', alignItems: 'center', gap: 4 }}>Explore →</div>
+                                        </div>
                                     </div>
                                 </Link>
                             </FadeIn>
@@ -369,7 +375,7 @@ export default function LandingPage() {
                 <div style={{ maxWidth: 800, margin: '0 auto' }}>
                     <FadeIn>
                         <div className="glass-bright" style={{ borderRadius: 24, padding: '60px 40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(212,168,67,0.04), rgba(249,115,22,0.04))', pointerEvents: 'none' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(212,168,67,0.04), rgba(212,168,67,0.08))', pointerEvents: 'none' }} />
                             <div style={{ position: 'relative', zIndex: 1 }}>
                                 <div style={{ width: 52, height: 52, borderRadius: 14, background: `linear-gradient(135deg, ${GOLD}, ${GOLD_L})`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#08060f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -381,7 +387,7 @@ export default function LandingPage() {
                                     Join 340+ institutes and 2.4M+ students already using SkillSense AI to bridge the skills gap.
                                 </p>
                                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                                    <Link href="/auth" className="btn-primary" style={{ fontSize: 15, padding: '12px 28px' }}>Start Free</Link>
+                                    <Link href="/auth" className="btn-primary btn-shimmer" style={{ fontSize: 15, padding: '12px 28px' }}>Start Free</Link>
                                     <Link href="/institute" className="btn-ghost" style={{ fontSize: 15, padding: '12px 28px' }}>Institute Demo</Link>
                                 </div>
                             </div>

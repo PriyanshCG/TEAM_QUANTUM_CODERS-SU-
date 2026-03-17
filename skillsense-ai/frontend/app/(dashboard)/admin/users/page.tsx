@@ -51,8 +51,14 @@ export default function UsersPage() {
     };
 
     const inputStyle = {
-        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
-        borderRadius: 8, padding: '9px 12px', color: WHITE, fontSize: 13, outline: 'none', width: '100%' as const,
+        background: 'rgba(255,255,255,0.06)', 
+        border: '1px solid rgba(212,168,67,0.25)',
+        borderRadius: 8, 
+        padding: '10px 14px', 
+        color: 'rgba(255,255,255,0.9)', 
+        fontSize: 13, 
+        outline: 'none', 
+        width: '100%' as const,
     };
     const labelStyle = { fontSize: 11, color: MUTED, fontWeight: 600 as const, marginBottom: 4, display: 'block' as const };
 
@@ -96,8 +102,18 @@ export default function UsersPage() {
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                                 <div>
                                     <label style={labelStyle}>Role</label>
-                                    <select value={fRole} onChange={e => setFRole(e.target.value)} style={{ ...inputStyle, appearance: 'auto' as any }}>
-                                        {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
+                                    <select value={fRole} onChange={e => setFRole(e.target.value)} style={{ 
+                                        ...inputStyle, 
+                                        appearance: 'auto' as any,
+                                        background: '#1a1a2e',
+                                        color: 'rgba(255, 255, 255, 0.9)',
+                                        cursor: 'pointer'
+                                    }}>
+                                        {ROLE_OPTIONS.map(r => (
+                                            <option key={r} value={r} style={{ background: '#1a1a2e', color: '#ffffff' }}>
+                                                {r}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div>

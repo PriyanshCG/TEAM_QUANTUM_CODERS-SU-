@@ -17,27 +17,38 @@ interface Props {
     data: SkillGapEntry[];
 }
 
-const GOLD = '#D4A843';
+const GOLD = '#F59E0B';
 const WHITE = '#FFFFFF';
-const MUTED = '#A0A0A0';
+const MUTED = '#94a3b8';
+const AMBER = '#FBBF24';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
+    if (active && payload?.length) {
         return (
-            <div
-                style={{
-                    background: 'rgba(15, 15, 25, 0.95)',
-                    border: `1px solid ${GOLD}`,
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    minWidth: '160px',
-                }}
-            >
-                <p style={{ color: GOLD, fontWeight: 700, marginBottom: 4 }}>{label}</p>
-                {payload.map((entry: { name: string; value: number; color: string }, i: number) => (
-                    <p key={i} style={{ color: entry.color, margin: '2px 0', fontSize: 13 }}>
-                        {entry.name}: <span style={{ color: WHITE, fontWeight: 600 }}>{entry.value}</span>
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '160px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    marginBottom: '8px'
+                }}>{label}</p>
+                {payload.map((entry: any, i: number) => (
+                    <p key={i} style={{ 
+                        color: entry.name === 'My Level' ? '#F59E0B' : '#ffffff', 
+                        margin: '2px 0', 
+                        fontSize: '13px',
+                        fontWeight: 500
+                    }}>
+                        {entry.name}: <span style={{ fontWeight: 700 }}>{entry.value}</span>
                     </p>
                 ))}
             </div>

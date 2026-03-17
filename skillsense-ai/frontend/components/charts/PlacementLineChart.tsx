@@ -17,37 +17,51 @@ interface Props {
     data: PlacementData[];
 }
 
-const GOLD = '#D4A843';
-const MUTED = '#A0A0A0';
+const GOLD = '#F59E0B';
+const MUTED = '#94a3b8';
 const WHITE = '#FFFFFF';
+const AMBER = '#FBBF24';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
+    if (active && payload?.length) {
         const d = payload[0].payload as PlacementData;
         return (
-            <div
-                style={{
-                    background: 'rgba(15, 15, 25, 0.95)',
-                    border: `1px solid ${GOLD}`,
-                    borderRadius: '8px',
-                    padding: '12px 16px',
-                    minWidth: '200px',
-                }}
-            >
-                <p style={{ color: GOLD, fontWeight: 700, marginBottom: 8 }}>{label}</p>
-                <p style={{ color: WHITE, fontSize: 13, margin: '3px 0' }}>
-                    Placed: <span style={{ color: GOLD }}>{d.placedCount}</span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 13, margin: '3px 0' }}>
-                    Avg Salary: <span style={{ color: GOLD }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
-                </p>
-                <p style={{ color: WHITE, fontSize: 13, margin: '3px 0' }}>
-                    Rate: <span style={{ color: GOLD }}>{d.placementRate}%</span>
-                </p>
-                <p style={{ color: MUTED, fontSize: 12, margin: '3px 0' }}>
-                    Top: {d.topSector} • Female {d.femalePercent}%
-                </p>
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '200px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '14px',
+                    marginBottom: '8px'
+                }}>{label}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Placed: <span style={{ color: '#F59E0B', fontWeight: 600 }}>{d.placedCount}</span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Avg Salary: <span style={{ color: '#F59E0B', fontWeight: 600 }}>&#8377;{d.avgSalary.toLocaleString('en-IN')}</span>
+                    </p>
+                    <p style={{ color: '#ffffff', fontSize: '13px', margin: 0 }}>
+                        Rate: <span style={{ color: '#22c55e', fontWeight: 700 }}>{d.placementRate}%</span>
+                    </p>
+                    <p style={{ 
+                        color: '#94a3b8', 
+                        fontSize: '11px', 
+                        marginTop: '8px',
+                        paddingTop: '8px',
+                        borderTop: '1px solid rgba(255,255,255,0.1)' 
+                    }}>
+                        Top: {d.topSector} • Female {d.femalePercent}%
+                    </p>
+                </div>
             </div>
         );
     }

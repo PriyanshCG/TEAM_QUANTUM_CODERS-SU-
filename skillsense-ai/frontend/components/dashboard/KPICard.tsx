@@ -96,16 +96,20 @@ export default function KPICard({
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                 <span
                     style={{
-                        color: WHITE,
+                        background: 'linear-gradient(135deg, #FFF 0%, #FBBF24 50%, #F59E0B 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
                         fontSize: compact ? 22 : 30,
-                        fontWeight: 700,
+                        fontWeight: 800,
                         lineHeight: 1,
+                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
                     }}
                 >
                     {displayValue}
                 </span>
                 {unit && (
-                    <span style={{ color: GOLD, fontSize: compact ? 12 : 15, fontWeight: 500 }}>
+                    <span style={{ color: '#FBBF24', fontSize: compact ? 12 : 15, fontWeight: 600 }}>
                         {unit}
                     </span>
                 )}

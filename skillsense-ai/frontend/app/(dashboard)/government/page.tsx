@@ -18,15 +18,36 @@ interface CustomTooltipProps {
 }
 
 const Tip = ({ active, payload, label }: CustomTooltipProps) => {
-    if (!active || !payload?.length) return null;
-    return (
-        <div className="glass-bright" style={{ padding: '8px 12px', borderRadius: 10, fontSize: 12 }}>
-            <p style={{ color: '#94a3b8', marginBottom: 4 }}>{label}</p>
-            {payload.map((p: any, i: number) => (
-                <p key={i} style={{ color: GOLD, fontWeight: 700 }}>{p.name}: {p.value}</p>
-            ))}
-        </div>
-    );
+    if (active && payload?.length) {
+        return (
+            <div style={{
+                background: 'rgba(10, 10, 20, 0.95)',
+                border: '1px solid rgba(212, 168, 67, 0.4)',
+                borderRadius: '10px',
+                padding: '12px 16px',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                minWidth: '160px'
+            }}>
+                <p style={{
+                    color: '#F59E0B',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    marginBottom: '6px'
+                }}>{label}</p>
+                {payload.map((entry: any, i: number) => (
+                    <p key={i} style={{
+                        color: '#ffffff',
+                        fontSize: '13px',
+                        margin: '2px 0'
+                    }}>
+                        {entry.name}: {entry.value}
+                    </p>
+                ))}
+            </div>
+        );
+    }
+    return null;
 };
 
 const stateData = [
